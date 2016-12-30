@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace test_app
+namespace test_console_app
 {
     internal static class Program
     {
@@ -26,7 +30,7 @@ namespace test_app
             var userInput = Console.ReadLine();
 
             if (userInput == "Hi")
-            { 
+            {
                 fido.Talk();
                 _talking = false;
             }
@@ -35,7 +39,7 @@ namespace test_app
                 Console.WriteLine("wrong input\nType any key to try again...");
                 Console.ReadKey();
                 Console.Clear();
-                
+
             }
         }
     }
@@ -68,10 +72,10 @@ namespace test_app
 
     internal class Fox : Animal
     {
-        
+
     }
 
-    
+
 
     internal class GoldenRetriever : Dog
     {
