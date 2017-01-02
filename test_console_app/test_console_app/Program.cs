@@ -9,6 +9,7 @@ namespace test_console_app
     internal static class Program
     {
         private static bool _talking = true;
+
         private static void Main(string[] args)
         {
             Console.Write("<<generic stuff>> ");
@@ -39,7 +40,6 @@ namespace test_console_app
                 Console.WriteLine("wrong input\nType any key to try again...");
                 Console.ReadKey();
                 Console.Clear();
-
             }
         }
     }
@@ -72,10 +72,7 @@ namespace test_console_app
 
     internal class Fox : Animal
     {
-
     }
-
-
 
     internal class GoldenRetriever : Dog
     {
