@@ -48,7 +48,7 @@ namespace test_game_mono
             }
             texture.SetData<Color>(colorData);
             // TODO: Add your initialization logic here
-            this.IsFixedTimeStep = true;
+            this.IsFixedTimeStep = false;
             base.Initialize();
         }
 
