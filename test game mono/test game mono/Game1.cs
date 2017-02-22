@@ -41,6 +41,7 @@ namespace test_game_mono
         {
             position = new Vector2(1,1);
             texture = new Texture2D(this.GraphicsDevice, 100,100);
+           
             Color[] colorData = new Color[100 * 100];
             for (int i = 0; i < 10000; i++)
             {

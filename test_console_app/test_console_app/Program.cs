@@ -23,7 +23,7 @@ namespace test_console_app
             foxi.Talk();
             Console.ReadKey();
         }
-
+        
         private static void EnCounterDog()
         {
             var fido = new GoldenRetriever();
