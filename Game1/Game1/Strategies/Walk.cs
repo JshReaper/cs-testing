@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game1
 {
-    class Walk : IPlayerBehavior
+    class Walk : IPlayerBehaviorStrategy
     {
 
         private Animator animator;

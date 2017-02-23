@@ -19,7 +19,9 @@ namespace Game1
             if (inactiveGameObjects.Count > 0)
             {
                 //add pos laydepth and such back
-
+                if((inactiveGameObjects[0].GetComponent("Collider") as Collider) != null)
+                (inactiveGameObjects[0].GetComponent("Collider") as Collider).DoCollisionChecks = true;
+                
                 activeGameObjects.Add(inactiveGameObjects[0]);
                 inactiveGameObjects.RemoveAt(0);
                 return activeGameObjects[activeGameObjects.Count - 1];
@@ -44,6 +46,9 @@ namespace Game1
         void CleanUp(GameObject gameObject)
         {
             gameObject.Transform.Posistion = Vector2.Zero;
+
+            if ((gameObject.GetComponent("Collider") as Collider) != null)
+                (gameObject.GetComponent("Collider") as Collider).DoCollisionChecks = false;
 
         }
     }

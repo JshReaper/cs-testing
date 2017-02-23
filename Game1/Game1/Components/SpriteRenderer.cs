@@ -13,15 +13,18 @@ namespace Game1
         public Vector2 Offset { get; set; }
         public Rectangle Rectangle { get {return rectangle; } set { rectangle = value; } }
         public Texture2D Sprite { get { return sprite; } }
+        public Color Color { get { return color; } set { color = value; } }
 
+        private Color color;
         public SpriteRenderer(GameObject gameObject, string spriteName, float layerDepth) : base(gameObject)
         {
+            color = Color.White;
             this.spriteName = spriteName;
             this.layerDepth = layerDepth;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, GameObject.Transform.Posistion+Offset,rectangle,Color.White,GameObject.Transform.Rotation,GameObject.Transform.Origin,GameObject.Transform.Scale,SpriteEffects.None,layerDepth);
+            spriteBatch.Draw(sprite, GameObject.Transform.Posistion+Offset,rectangle,color,GameObject.Transform.Rotation,GameObject.Transform.Origin,GameObject.Transform.Scale,SpriteEffects.None,layerDepth);
             
         }
 

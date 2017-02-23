@@ -22,7 +22,10 @@ namespace Game1
         public static List<GameObject> GameObjectsToRemove
         { get { return gameObjectsToRemove; } set { gameObjectsToRemove = value; } }
         EnemyPool enemyPool = new EnemyPool();
-        
+        private List<Collider> colliders;
+        public List<Collider> Colliders { get { return colliders; } }
+
+
         private Effect noEffect;
         private bool drawing;
         private Random rnd;
@@ -61,6 +64,7 @@ namespace Game1
             gameObjects = new List<GameObject>();
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
+            colliders = new List<Collider>();
             rnd = new Random();
 
             base.Initialize();

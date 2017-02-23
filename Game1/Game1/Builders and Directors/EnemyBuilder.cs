@@ -16,8 +16,8 @@ namespace Game1
             gameObject = new GameObject(posistion,gd);
             gameObject.AddComponent(new SpriteRenderer(gameObject,"SlimeSheet",layerDepth));
             gameObject.AddComponent(new Animator(gameObject, animationFps));
-            gameObject.AddComponent(new Enemy(gameObject));
             gameObject.AddComponent(new Collider(gameObject));
+            gameObject.AddComponent(new Enemy(gameObject));
         }
     }
 }

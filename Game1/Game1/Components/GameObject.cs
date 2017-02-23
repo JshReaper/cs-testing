@@ -118,6 +118,40 @@ namespace Game1
                 }
             }
         }
+
+        public void OnCollisionEnter(Collider other)
+        {
+            foreach (Component component in components)
+            {
+                if (component is ICollisionEnter) //Checks if any components are IAnimateable
+                {
+                    //If a component is IAnimateable we call the local implementation of the method
+                    (component as ICollisionEnter).OnCollisionEnter(other);
+                }
+            }
+        }
+        public void OnCollisionExit(Collider other)
+        {
+            foreach (Component component in components)
+            {
+                if (component is ICollisionExit) //Checks if any components are IAnimateable
+                {
+                    //If a component is IAnimateable we call the local implementation of the method
+                    (component as ICollisionExit).OnCollisionExit(other);
+                }
+            }
+        }
+    }
+
+    interface ICollisionEnter
+
+    {
+        void OnCollisionEnter(Collider other);
+    }
+    interface ICollisionExit
+
+    {
+        void OnCollisionExit(Collider other);
     }
 
 }

@@ -9,11 +9,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game1
 {
-    class Player : Component,IUpdateAble,ILoadable,IAnimateable,ICollisionStay
+    class Player : Component,IUpdateAble,ILoadable,IAnimateable,ICollisionStay,ICollisionExit,ICollisionEnter
     {
         private float speed;
         private Animator animator;
-        private IPlayerBehavior playerBehavior;
+        private IPlayerBehaviorStrategy playerBehavior;
         private Direction direction;
         private bool canMove = true;
 
@@ -21,6 +21,10 @@ namespace Game1
         {
             this.speed = speed;
             animator =(Animator) gameObject.GetComponent("Animator");
+
+            var collider = GameObject.GetComponent("Collider") as Collider;
+            if (collider != null)
+                collider.DoCollisionChecks = true;
         }
 
         public float Speed { get { return speed; } }
@@ -103,6 +107,25 @@ namespace Game1
                 canMove = true;
             }
 
+        }
+
+        public void OnCollisionStay(Collider other)
+        {
+            
+        }
+
+        public void OnCollisionEnter(Collider other)
+        {
+            var spriteRenderer = other.GameObject.GetComponent("SpriteRenderer") as SpriteRenderer;
+            if (spriteRenderer != null)
+                spriteRenderer.Color = Color.Red;
+        }
+
+        public void OnCollisionExit(Collider other)
+        {
+            var spriteRenderer = other.GameObject.GetComponent("SpriteRenderer") as SpriteRenderer;
+            if (spriteRenderer != null)
+                spriteRenderer.Color = Color.White;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Game1
 {
-    interface IPlayerBehavior
+    interface IPlayerBehaviorStrategy
     {
         void Execute(Direction currentDirection);
     }

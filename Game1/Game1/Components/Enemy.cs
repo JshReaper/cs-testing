@@ -3,15 +3,18 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Game1
 {
-    internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable,ICollisionStay
+    internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable,ICollisionStay, ICollisionExit, ICollisionEnter
     {
 
         private Animator animator;
 
         public Enemy(GameObject gameObject) : base(gameObject)
         {
-
             animator = (Animator)gameObject.GetComponent("Animator");
+
+            var collider = GameObject.GetComponent("Collider") as Collider;
+            if (collider != null)
+                collider.DoCollisionChecks = true;
         }
 
 
@@ -47,6 +50,23 @@ namespace Game1
         {
             
 
+
+        }
+
+        public void OnCollisionStay(Collider other)
+        {
+            //SpriteRenderer s = (SpriteRenderer) GameObject.GetComponent("SpriteRenderer");
+            //if(other.GameObject.GetComponent("Player") != null)
+            //s.Color = Color.Red;
+        }
+
+        public void OnCollisionExit(Collider other)
+        {
+            
+        }
+
+        public void OnCollisionEnter(Collider other)
+        {
 
         }
     }
