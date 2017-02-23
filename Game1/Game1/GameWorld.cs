@@ -15,14 +15,26 @@ namespace Game1
         SpriteBatch spriteBatch;
         private SpriteFont GameFont;
         private static List<GameObject> gameObjects,gameObjectsToAdd,gameObjectsToRemove;
+        /// <summary>
+        /// gets and sets the gameobject list
+        /// </summary>
         public static List<GameObject> GameObjects
         { get{ return gameObjects; } set { gameObjects = value; } }
+        /// <summary>
+        /// gets and sets the gameobjects to add list
+        /// </summary>
         public static List<GameObject> GameObjectsToAdd
         { get { return gameObjectsToAdd; } set { gameObjectsToAdd = value; } }
+        /// <summary>
+        /// gets and sets the gameobjects to remove
+        /// </summary>
         public static List<GameObject> GameObjectsToRemove
         { get { return gameObjectsToRemove; } set { gameObjectsToRemove = value; } }
         EnemyPool enemyPool = new EnemyPool();
         private List<Collider> colliders;
+        /// <summary>
+        /// gets the list of colliders
+        /// </summary>
         public List<Collider> Colliders { get { return colliders; } }
 
 
@@ -31,8 +43,13 @@ namespace Game1
         private Random rnd;
         private double fps;
         private static GameWorld instance = null;
+        /// <summary>
+        /// gets the deltatime
+        /// </summary>
         public float deltaTime;
-
+        /// <summary>
+        /// gets the gameworld instance
+        /// </summary>
         public static GameWorld Instance
         {
             get

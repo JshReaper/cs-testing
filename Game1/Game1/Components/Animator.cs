@@ -13,8 +13,16 @@ namespace Game1
         private float fps;
         private Rectangle[] rectangles;
         private string animationName;
+        /// <summary>
+        /// gets the animation name
+        /// </summary>
         public string AnimationName { get { return animationName; } set { animationName = value; } }
         private Dictionary<string, Animation> animations;
+        /// <summary>
+        /// sets the animations to an empty Dictinorary and refers to the spriterenderer of the gameobject
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="fps"></param>
         public Animator( GameObject gameObject,float fps): base(gameObject)
         {
 
@@ -23,6 +31,9 @@ namespace Game1
             this.spriteRenderer = (SpriteRenderer)gameObject.GetComponent("SpriteRenderer");
             
         }
+        /// <summary>
+        /// updates the animations
+        /// </summary>
         public void Update()
         {
             timeElapsed += GameWorld.Instance.deltaTime;
@@ -38,12 +49,19 @@ namespace Game1
             }
 
         }
-
+        /// <summary>
+        /// creates a new animation
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="animation"></param>
         public void CreateAnimation(string name, Animation animation)
         {
             animations.Add(name, animation);
         }
-
+        /// <summary>
+        /// plays a animation
+        /// </summary>
+        /// <param name="animationName"></param>
         public void PlayAnimation(string animationName)
         {
             if (this.animationName != animationName)
@@ -58,7 +76,7 @@ namespace Game1
                 //Sets the animation name
                 this.animationName = animationName;
                 //Sets the fps
-                this.fps = animations[animationName].Fps;
+                this.fps = animations[animationName].AnimationSpeed;
                 //Resets the animation
                 timeElapsed = 0;
                 currentIndex = 0;

@@ -16,7 +16,11 @@ namespace Game1
         private IPlayerBehaviorStrategy playerBehavior;
         private Direction direction;
         private bool canMove = true;
-
+        /// <summary>
+        /// sets the speed, reference to the attached animator, sets DocolCheck to true to the attached Collider on the gameobject
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="speed"></param>
         public Player(GameObject gameObject, float speed) : base(gameObject)
         {
             this.speed = speed;
@@ -26,9 +30,13 @@ namespace Game1
             if (collider != null)
                 collider.DoCollisionChecks = true;
         }
-
+        /// <summary>
+        /// gets the speed of the player
+        /// </summary>
         public float Speed { get { return speed; } }
-
+        /// <summary>
+        /// Player movement and other behaviors gets updated based on input by the user
+        /// </summary>
         public void Update()
         {
             KeyboardState keyState = Keyboard.GetState();
@@ -40,22 +48,6 @@ namespace Game1
                     if (!(playerBehavior is Walk))
                     {
                         playerBehavior = new Walk(GameObject.Transform,animator,this);
-                        if (keyState.IsKeyDown(Keys.W))
-                        {
-                            direction = Direction.Back;
-                        }
-                        if (keyState.IsKeyDown(Keys.S))
-                        {
-                            direction = Direction.Front;
-                        }
-                        if (keyState.IsKeyDown(Keys.A))
-                        {
-                            direction = Direction.Left;
-                        }
-                        if (keyState.IsKeyDown(Keys.D))
-                        {
-                            direction = Direction.Right;
-                        }
                         
                     }
                 }
@@ -70,15 +62,19 @@ namespace Game1
                 }
             }
             playerBehavior.Execute(direction);
-      //      Move();
         }
-
+        /// <summary>
+        /// creates all animations
+        /// </summary>
+        /// <param name="content"></param>
         public void LoadContent(ContentManager content)
         {
             CreateAnimations();
 
         }
-
+        /// <summary>
+        /// adds all the animations and sets a default animation
+        /// </summary>
         void CreateAnimations()
         {
             animator.CreateAnimation("IdleFront", new Animation(4, 0, 0, 90, 150, 6, Vector2.Zero));
@@ -99,7 +95,10 @@ namespace Game1
             animator.CreateAnimation("DieRight", new Animation(3, 1070, 3, 150, 150, 5, Vector2.Zero));
             animator.PlayAnimation("IdleFront");
         }
-
+        /// <summary>
+        /// ensure that the player can not move while attacking
+        /// </summary>
+        /// <param name="animationName"></param>
         public void OnAnimationDone(string animationName)
         {
             if (animationName.Contains("Attack"))
@@ -108,19 +107,28 @@ namespace Game1
             }
 
         }
-
+        /// <summary>
+        /// do something while colliding
+        /// </summary>
+        /// <param name="other"></param>
         public void OnCollisionStay(Collider other)
         {
             
         }
-
+        /// <summary>
+        /// turns the color of the colliding object to red when entering the collision
+        /// </summary>
+        /// <param name="other"></param>
         public void OnCollisionEnter(Collider other)
         {
             var spriteRenderer = other.GameObject.GetComponent("SpriteRenderer") as SpriteRenderer;
             if (spriteRenderer != null)
                 spriteRenderer.Color = Color.Red;
         }
-
+        /// <summary>
+        /// turns the color back to the original when the player stops colliding of the object being collided with
+        /// </summary>
+        /// <param name="other"></param>
         public void OnCollisionExit(Collider other)
         {
             var spriteRenderer = other.GameObject.GetComponent("SpriteRenderer") as SpriteRenderer;
