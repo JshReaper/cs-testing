@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game1
 {
-    class Player : Component,IUpdateAble,ILoadable,IAnimateable
+    class Player : Component,IUpdateAble,ILoadable,IAnimateable,ICollisionStay
     {
         private float speed;
         private Animator animator;

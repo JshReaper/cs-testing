@@ -19,6 +19,8 @@ namespace Game1
         protected Vector2 scale;
         protected GraphicsDevice gd;
         private List<Component> components;
+        private bool isLoaded = false;
+
         public GameObject(Vector2 posistion, GraphicsDevice gd)
         {
             components = new List<Component>();
@@ -53,15 +55,18 @@ namespace Game1
 
         public virtual void LoadContent(ContentManager content)
         {
-            
 
 
-            foreach (Component component in components)
+            if (!isLoaded)
+            { 
+                foreach (Component component in components)
             {
                 if (component is ILoadable)
                 {
                     (component as ILoadable).LoadContent(content);
                 }
+            }
+                isLoaded = true;
             }
             SpriteRenderer s = (SpriteRenderer) GetComponent("SpriteRenderer");
             sprite = s.Sprite;
@@ -89,36 +94,6 @@ namespace Game1
             }
         }
         
-        protected Rectangle CollisionBox
-        {
-            get
-            {
-                return new Rectangle((int)transform.Posistion.X,(int)transform.Posistion.Y,(int)(sprite.Width*scale.X), (int)(sprite.Height*scale.X));
-                
-            }
-            set { CollisionBox = value; }
-        }
-        public bool IsCollidingWith(GameObject other)
-        {
-            return CollisionBox.Intersects(other.CollisionBox);
-        }
-        public void CheckCollision()
-        {
-            foreach (GameObject go in GameWorld.GameObjects)
-            {
-                if (go != this)
-                {
-                    if (this.IsCollidingWith(go))
-                    {
-                        OnCollision(go);
-                    }
-                }
-            }
-        }
-        protected virtual void OnCollision(GameObject other)
-        {
-
-        }
 
         public void OnAnimationDone(string animationName)
         {
@@ -131,5 +106,18 @@ namespace Game1
                 }
             }
         }
+
+        public void OnCollisionStay(Collider other)
+        {
+            foreach (Component component in components)
+            {
+                if (component is ICollisionStay) //Checks if any components are IAnimateable
+                {
+                    //If a component is IAnimateable we call the local implementation of the method
+                    (component as ICollisionStay).OnCollisionStay(other);
+                }
+            }
+        }
     }
+
 }

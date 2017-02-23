@@ -21,7 +21,7 @@ namespace Game1
         { get { return gameObjectsToAdd; } set { gameObjectsToAdd = value; } }
         public static List<GameObject> GameObjectsToRemove
         { get { return gameObjectsToRemove; } set { gameObjectsToRemove = value; } }
-
+        EnemyPool enemyPool = new EnemyPool();
         
         private Effect noEffect;
         private bool drawing;
@@ -82,8 +82,7 @@ namespace Game1
             GameObjectDirector gdr;
             PlayerBuilder playerBuilder = new PlayerBuilder();
             playerBuilder.BuildGameObject(Vector2.Zero, graphics.GraphicsDevice, 0.5f, 5);
-            EnemyBuilder enemyBuilder = new EnemyBuilder();
-            enemyBuilder.BuildGameObject(new Vector2(100,100), graphics.GraphicsDevice,0,5);
+            
             //add all the gameobjects
             //add player
             gdr = new GameObjectDirector(playerBuilder);
@@ -91,8 +90,8 @@ namespace Game1
 
             //add one enemy
 
-            gdr = new GameObjectDirector(enemyBuilder);
-            gameObjects.Add(gdr.Construct());
+
+            gameObjects.Add(enemyPool.Create(new Vector2(100,100),graphics.GraphicsDevice,0,5 ));
 
             //GameObject player = new GameObject(new Vector2(0,0),graphics.GraphicsDevice );
             //player.AddComponent(new SpriteRenderer(player, "HeroSheet", 0));
@@ -120,6 +119,8 @@ namespace Game1
             // TODO: Unload any non ContentManager content here
         }
 
+        private float removeenemy;
+        bool toggle = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -128,14 +129,40 @@ namespace Game1
         protected override void Update(GameTime gameTime)
         {
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            removeenemy += deltaTime;
+            KeyboardState keyState = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            foreach (var gameObject in gameObjects)
-            {
-                gameObject.CheckCollision();
-            }
+           
             // TODO: Add your update logic here
+
+            //test start
+            if (removeenemy > 10)
+            {
+                for (int i = 0; i < gameObjects.Count; i++)
+                {
+                    if (gameObjects[i].GetComponent("Enemy") != null)
+                    {
+                        enemyPool.ReleaseObject(gameObjects[i]);
+                        gameObjectsToRemove.Add(gameObjects[i]);
+                        removeenemy = -20;
+                    }
+                }
+            }
             
+            if (keyState.IsKeyDown(Keys.K) && !toggle)
+            {
+                gameObjectsToAdd.Add(enemyPool.Create(new Vector2(100, 100), graphics.GraphicsDevice, 0, 5));
+                toggle = true;
+            }
+            else if(toggle && !keyState.IsKeyDown(Keys.K))
+            {
+                toggle = false;
+            }
+
+            //test end
+
+
             if (gameObjectsToAdd.Count > 0)
             {
                 foreach (var gameObject in gameObjectsToAdd)
@@ -143,13 +170,7 @@ namespace Game1
                     gameObject.LoadContent(Content);
                 }
             }
-            if (gameObjectsToRemove.Count > 0)
-            {
-                foreach (var gameObject in gameObjectsToRemove)
-                {
-                    gameObject.LoadContent(Content);
-                }
-            }
+         
             foreach (var gameObject in gameObjects)
             {
                 gameObject.Update();
@@ -161,6 +182,10 @@ namespace Game1
                 {
                     for (int i = 0; i < gameObjectsToRemove.Count; i++)
                     {
+                        if (gameObjectsToRemove[i].GetComponent("Enemy") != null)
+                        {
+                            enemyPool.ReleaseObject(gameObjectsToRemove[i]);
+                        }
                         gameObjects.Remove(gameObjectsToRemove[i]);
                     }
                 }
@@ -174,7 +199,7 @@ namespace Game1
                 gameObjectsToAdd.Clear();
                 gameObjectsToRemove.Clear();
             }
-            GC.Collect();
+
             base.Update(gameTime);
         }
         

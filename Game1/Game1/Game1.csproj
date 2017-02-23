@@ -41,14 +41,17 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Animator.cs" />
     <Compile Include="Attack.cs" />
+    <Compile Include="Collider.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyBuilder.cs" />
+    <Compile Include="EnemyPool.cs" />
     <Compile Include="GameObjectDirector.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="IAnimateable.cs" />
+    <Compile Include="ICollisionStay.cs" />
     <Compile Include="Idle.cs" />
     <Compile Include="IDrawAble.cs" />
     <Compile Include="IGameObjectBuilder.cs" />

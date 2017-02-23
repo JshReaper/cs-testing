@@ -62,7 +62,8 @@ namespace Game1
                 //Resets the animation
                 timeElapsed = 0;
                 currentIndex = 0;
-            }
+            }
+
         }
     }
 }

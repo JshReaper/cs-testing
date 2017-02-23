@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Game1
 {
-    internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable
+    internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable,ICollisionStay
     {
 
         private Animator animator;
