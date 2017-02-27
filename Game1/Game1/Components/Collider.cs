@@ -35,6 +35,7 @@ namespace Game1
         {
             GameWorld.Instance.Colliders.Add(this);
             otherColliders = new List<Collider>();
+            
         }
         /// <summary>
         /// draws the collision box
