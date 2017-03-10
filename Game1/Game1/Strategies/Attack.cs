@@ -1,6 +1,6 @@
 ﻿namespace Game1
 {
-    class Attack : IPlayerBehaviorStrategy
+    class Attack : IStrategy
     {
         private Animator animator;
         /// <summary>

@@ -1,6 +1,6 @@
 namespace Game1
 {
-    class Idle : IPlayerBehaviorStrategy
+    class Idle : IStrategy
     {
 
         private Animator animator;

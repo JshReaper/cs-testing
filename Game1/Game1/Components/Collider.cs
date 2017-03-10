@@ -19,8 +19,8 @@ namespace Game1
             get
             {
                 return new Rectangle((int) (GameObject.Transform.Posistion.X + spriteRenderer.Offset.X),
-                    (int) (GameObject.Transform.Posistion.Y + spriteRenderer.Offset.Y), spriteRenderer.Rectangle.Width,
-                    spriteRenderer.Rectangle.Height);
+                    (int) (GameObject.Transform.Posistion.Y + spriteRenderer.Offset.Y),(int) (spriteRenderer.Rectangle.Width * spriteRenderer.Scale),
+                    (int)(spriteRenderer.Rectangle.Height * spriteRenderer.Scale));
             }
         }
         /// <summary>

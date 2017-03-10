@@ -24,7 +24,7 @@ namespace Game1
         /// <param name="layerDepth"></param>
         /// <param name="animationFps"></param>
         /// <returns></returns>
-        public GameObject Create(Vector2 posistion, GraphicsDevice graphicsDevice,float layerDepth,float animationFps)
+        public GameObject Create(Vector2 posistion,float layerDepth,float animationFps,float scale)
         {
             if (inactiveGameObjects.Count > 0)
             {
@@ -39,7 +39,7 @@ namespace Game1
             else
             {
                 EnemyBuilder en = new EnemyBuilder();
-                en.BuildGameObject(posistion, graphicsDevice, layerDepth, animationFps);
+                en.BuildGameObject(posistion, layerDepth, animationFps,scale);
                 GameObjectDirector gameObjectDirector = new GameObjectDirector(en);
                 activeGameObjects.Add(gameObjectDirector.Construct());
                 return gameObjectDirector.Construct(); 

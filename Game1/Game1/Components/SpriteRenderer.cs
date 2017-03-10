@@ -10,6 +10,7 @@ namespace Game1
         private Texture2D sprite;
         string spriteName;
         private float layerDepth;
+        private float scale;
         /// <summary>
         /// sets and gets the current offset
         /// </summary>
@@ -27,6 +28,8 @@ namespace Game1
         /// </summary>
         public Color Color { get { return color; } set { color = value; } }
 
+        public float Scale { get { return scale; } }
+
         private Color color;
         /// <summary>
         /// sets the color to a default white, sets the spritename and laydepth 
@@ -34,11 +37,12 @@ namespace Game1
         /// <param name="gameObject"></param>
         /// <param name="spriteName"></param>
         /// <param name="layerDepth"></param>
-        public SpriteRenderer(GameObject gameObject, string spriteName, float layerDepth) : base(gameObject)
+        public SpriteRenderer(GameObject gameObject, string spriteName, float layerDepth, float scale) : base(gameObject)
         {
             color = Color.White;
             this.spriteName = spriteName;
             this.layerDepth = layerDepth;
+            this.scale = scale;
         }
         /// <summary>
         /// draws the Object
@@ -46,7 +50,7 @@ namespace Game1
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, GameObject.Transform.Posistion+Offset,rectangle,color,GameObject.Transform.Rotation,GameObject.Transform.Origin,GameObject.Transform.Scale,SpriteEffects.None,layerDepth);
+            spriteBatch.Draw(sprite, GameObject.Transform.Posistion+Offset,rectangle,color,GameObject.Transform.Rotation,GameObject.Transform.Origin,scale,SpriteEffects.None,layerDepth);
             
         }
         /// <summary>

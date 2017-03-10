@@ -58,7 +58,7 @@
     <Compile Include="Interfaces\IDrawAble.cs" />
     <Compile Include="Interfaces\IGameObjectBuilder.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
-    <Compile Include="Interfaces\IPlayerBehaviorStrategy.cs" />
+    <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Interfaces\IUpdateAble.cs" />
     <Compile Include="Components\Player.cs" />
     <Compile Include="Builders and Directors\PlayerBuilder.cs" />

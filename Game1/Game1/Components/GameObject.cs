@@ -19,8 +19,6 @@ namespace Game1
         /// </summary>
         public Transform Transform { get { return transform; } }
        
-        protected Vector2 scale;
-        protected GraphicsDevice gd;
         private List<Component> components;
         private bool isLoaded = false;
         /// <summary>
@@ -28,11 +26,11 @@ namespace Game1
         /// </summary>
         /// <param name="posistion"></param>
         /// <param name="gd"></param>
-        public GameObject(Vector2 posistion, GraphicsDevice gd)
+        public GameObject(Vector2 posistion)
         {
             components = new List<Component>();
             this.transform = new Transform(this, posistion);
-            this.gd = gd;
+            
         }
         /// <summary>
         /// adds the speficic component to the components list

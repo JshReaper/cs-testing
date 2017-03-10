@@ -102,7 +102,7 @@ namespace Game1
             //the game director and builders
             GameObjectDirector gdr;
             PlayerBuilder playerBuilder = new PlayerBuilder();
-            playerBuilder.BuildGameObject(Vector2.Zero, graphics.GraphicsDevice, 0.5f, 5);
+            playerBuilder.BuildGameObject(Vector2.Zero,  0.5f, 5,4);
             
             //add all the gameobjects
             //add player
@@ -112,7 +112,7 @@ namespace Game1
             //add one enemy
 
 
-            gameObjects.Add(enemyPool.Create(new Vector2(100,100),graphics.GraphicsDevice,0,5 ));
+            gameObjects.Add(enemyPool.Create(new Vector2(100,100),0,5,1 ));
 
             //GameObject player = new GameObject(new Vector2(0,0),graphics.GraphicsDevice );
             //player.AddComponent(new SpriteRenderer(player, "HeroSheet", 0));
@@ -126,7 +126,7 @@ namespace Game1
                 gameObject.LoadContent(Content);
             }
 
-            GameFont = Content.Load<SpriteFont>("GameFont");
+            GameFont = Content.Load<SpriteFont>("font");
 
 
         }
@@ -173,7 +173,7 @@ namespace Game1
             
             if (keyState.IsKeyDown(Keys.K) && !toggle)
             {
-                gameObjectsToAdd.Add(enemyPool.Create(new Vector2(100, 100), graphics.GraphicsDevice, 0, 5));
+                gameObjectsToAdd.Add(enemyPool.Create(new Vector2(100, 100), 0, 5,1));
                 toggle = true;
             }
             else if(toggle && !keyState.IsKeyDown(Keys.K))

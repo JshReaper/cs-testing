@@ -18,13 +18,12 @@ namespace Game1
         /// builds a enemy
         /// </summary>
         /// <param name="posistion"></param>
-        /// <param name="gd"></param>
         /// <param name="layerDepth"></param>
         /// <param name="animationFps"></param>
-        public void BuildGameObject(Vector2 posistion, GraphicsDevice gd, float layerDepth, float animationFps)
+        public void BuildGameObject(Vector2 posistion, float layerDepth, float animationFps,float scale)
         {
-            gameObject = new GameObject(posistion,gd);
-            gameObject.AddComponent(new SpriteRenderer(gameObject,"SlimeSheet",layerDepth));
+            gameObject = new GameObject(posistion);
+            gameObject.AddComponent(new SpriteRenderer(gameObject,"greenMan",layerDepth,scale));
             gameObject.AddComponent(new Animator(gameObject, animationFps));
             gameObject.AddComponent(new Collider(gameObject));
             gameObject.AddComponent(new Enemy(gameObject));
