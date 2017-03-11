@@ -17,9 +17,9 @@ namespace Game1
         /// returns the builders gameobject
         /// </summary>
         /// <returns></returns>
-        public GameObject Construct()
+        public GameObject Construct(Vector2 posistion, float layerDepth, float animationFps, float scale)
         {
-            
+            builder.BuildGameObject(posistion,layerDepth,animationFps,scale);
             return builder.GetResult();
         }
     }

@@ -100,19 +100,15 @@ namespace Game1
             // TODO: use this.Content to load your game content here
 
             //the game director and builders
-            GameObjectDirector gdr;
-            PlayerBuilder playerBuilder = new PlayerBuilder();
-            playerBuilder.BuildGameObject(Vector2.Zero,  0.5f, 5,4);
             
             //add all the gameobjects
             //add player
-            gdr = new GameObjectDirector(playerBuilder);
-            gameObjects.Add(gdr.Construct());
 
             //add one enemy
-
-
-            gameObjects.Add(enemyPool.Create(new Vector2(100,100),0,5,1 ));
+            GameObjectDirector god;
+            god = new GameObjectDirector(new TowerBuilder());
+            gameObjects.Add(god.Construct(new Vector2(300, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1,5,1));
+            gameObjects.Add(enemyPool.Create(new Vector2(0,GraphicsDevice.PresentationParameters.Bounds.Height / 2),0,5,1 ));
 
             //GameObject player = new GameObject(new Vector2(0,0),graphics.GraphicsDevice );
             //player.AddComponent(new SpriteRenderer(player, "HeroSheet", 0));
@@ -139,8 +135,7 @@ namespace Game1
         {
             // TODO: Unload any non ContentManager content here
         }
-
-        private float removeenemy;
+        
         bool toggle = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -150,7 +145,7 @@ namespace Game1
         protected override void Update(GameTime gameTime)
         {
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            removeenemy += deltaTime;
+            
             KeyboardState keyState = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -158,22 +153,11 @@ namespace Game1
             // TODO: Add your update logic here
 
             //test start
-            if (removeenemy > 10)
-            {
-                for (int i = 0; i < gameObjects.Count; i++)
-                {
-                    if (gameObjects[i].GetComponent("Enemy") != null)
-                    {
-                        enemyPool.ReleaseObject(gameObjects[i]);
-                        gameObjectsToRemove.Add(gameObjects[i]);
-                        removeenemy = -20;
-                    }
-                }
-            }
+            
             
             if (keyState.IsKeyDown(Keys.K) && !toggle)
             {
-                gameObjectsToAdd.Add(enemyPool.Create(new Vector2(100, 100), 0, 5,1));
+                gameObjectsToAdd.Add(enemyPool.Create(new Vector2(0,GraphicsDevice.PresentationParameters.Bounds.Height / 2), 0, 5,1));
                 toggle = true;
             }
             else if(toggle && !keyState.IsKeyDown(Keys.K))

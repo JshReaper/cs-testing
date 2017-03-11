@@ -39,7 +39,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
+    <Compile Include="Builders and Directors\TowerBuilder.cs" />
     <Compile Include="Components\Animator.cs" />
+    <Compile Include="Components\Tower.cs" />
     <Compile Include="Interfaces\ICollisionEnter.cs" />
     <Compile Include="Interfaces\ICollisionExit.cs" />
     <Compile Include="Strategies\Attack.cs" />
@@ -60,8 +62,6 @@
     <Compile Include="Interfaces\ILoadable.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Interfaces\IUpdateAble.cs" />
-    <Compile Include="Components\Player.cs" />
-    <Compile Include="Builders and Directors\PlayerBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\SpriteRenderer.cs" />

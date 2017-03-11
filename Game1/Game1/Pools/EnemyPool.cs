@@ -28,21 +28,16 @@ namespace Game1
         {
             if (inactiveGameObjects.Count > 0)
             {
-                //add pos laydepth and such back
-                if((inactiveGameObjects[0].GetComponent("Collider") as Collider) != null)
-                (inactiveGameObjects[0].GetComponent("Collider") as Collider).DoCollisionChecks = true;
-                
                 activeGameObjects.Add(inactiveGameObjects[0]);
                 inactiveGameObjects.RemoveAt(0);
                 return activeGameObjects[activeGameObjects.Count - 1];
             }
             else
             {
-                EnemyBuilder en = new EnemyBuilder();
-                en.BuildGameObject(posistion, layerDepth, animationFps,scale);
-                GameObjectDirector gameObjectDirector = new GameObjectDirector(en);
-                activeGameObjects.Add(gameObjectDirector.Construct());
-                return gameObjectDirector.Construct(); 
+                GameObjectDirector gameObjectDirector = new GameObjectDirector(new EnemyBuilder());
+                GameObject go = gameObjectDirector.Construct(posistion, layerDepth, animationFps, scale);
+                activeGameObjects.Add(go);
+                return go; 
             }
         }
         /// <summary>
@@ -61,7 +56,7 @@ namespace Game1
         /// <param name="gameObject"></param>
         void CleanUp(GameObject gameObject)
         {
-            gameObject.Transform.Posistion = Vector2.Zero;
+            gameObject.Transform.Posistion = new Vector2(0,GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height/2);
 
             if ((gameObject.GetComponent("Collider") as Collider) != null)
                 (gameObject.GetComponent("Collider") as Collider).DoCollisionChecks = false;

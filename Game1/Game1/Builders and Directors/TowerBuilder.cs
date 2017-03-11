@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class PlayerBuilder:IGameObjectBuilder
+    class TowerBuilder : IGameObjectBuilder
     {
         private GameObject gameObject;
         /// <summary>
@@ -14,20 +13,20 @@ namespace Game1
         {
             return gameObject;
         }
+
         /// <summary>
-        /// builds a player
+        /// builds a enemy
         /// </summary>
         /// <param name="posistion"></param>
-        /// <param name="gd"></param>
         /// <param name="layerDepth"></param>
         /// <param name="animationFps"></param>
-        public void BuildGameObject(Vector2 posistion, float layerDepth,float animationFps,float scale)
+        /// <param name="scale"></param>
+        public void BuildGameObject(Vector2 posistion, float layerDepth, float animationFps, float scale)
         {
             gameObject = new GameObject(posistion);
-            gameObject.AddComponent(new SpriteRenderer(gameObject, "greenMan", layerDepth,scale));
+            gameObject.AddComponent(new SpriteRenderer(gameObject, "tower", layerDepth, scale));
             gameObject.AddComponent(new Animator(gameObject, animationFps));
-            gameObject.AddComponent(new Collider(gameObject));
-            gameObject.AddComponent(new Player(gameObject, 80));
+            gameObject.AddComponent(new Tower(gameObject));
         }
     }
 }

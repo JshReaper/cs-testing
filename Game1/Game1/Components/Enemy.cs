@@ -3,10 +3,13 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Game1
 {
-    internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable,ICollisionStay, ICollisionExit, ICollisionEnter
+    internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable
     {
-
+        private IStrategy strategy;
         private Animator animator;
+        private Direction direction;
+        Vector2 target = new Vector2(GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right, GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2);
+
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
@@ -25,8 +28,42 @@ namespace Game1
         /// </summary>
         public void Update()
         {
+            if (GameObject.Transform.Posistion.X < target.X)
+            {
+                direction = Direction.Right;
+            }
+            if (GameObject.Transform.Posistion.Y > target.Y && clearPath)
+            {
+                direction = Direction.Back;
+            }
+           if (GameObject.Transform.Posistion.X > target.X)
+            {
+
+                direction = Direction.Left;
+           }
             
+            if (GameObject.Transform.Posistion.Y < target.Y && clearPath)
+            {
+                direction = Direction.Front;
+            }
+            clearPath = true;
+            foreach (var o in GameWorld.GameObjects)
+            {
+                if (o != GameObject)
+                {
+                    if (o.Transform.Posistion.X +32 > GameObject.Transform.Posistion.X) { 
+                        clearPath = false;
+                        if (o.Transform.Posistion.Y <= GameObject.Transform.Posistion.Y + 32)
+                            direction = Direction.Back;
+                    }
+                    
+                }
+            }
+            strategy = new Walk(GameObject.Transform,animator);
+            strategy.Execute(direction);
         }
+
+        private bool clearPath;
         /// <summary>
         /// creates animations
         /// </summary>
@@ -65,31 +102,6 @@ namespace Game1
 
 
         }
-        /// <summary>
-        /// does something while collide
-        /// </summary>
-        /// <param name="other"></param>
-        public void OnCollisionStay(Collider other)
-        {
-            //SpriteRenderer s = (SpriteRenderer) GameObject.GetComponent("SpriteRenderer");
-            //if(other.GameObject.GetComponent("Player") != null)
-            //s.Color = Color.Red;
-        }
-        /// <summary>
-        /// does something when collision ends
-        /// </summary>
-        /// <param name="other"></param>
-        public void OnCollisionExit(Collider other)
-        {
-            
-        }
-        /// <summary>
-        /// does something when collision start
-        /// </summary>
-        /// <param name="other"></param>
-        public void OnCollisionEnter(Collider other)
-        {
-
-        }
+       
     }
 }
