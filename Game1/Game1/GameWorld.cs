@@ -14,21 +14,21 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private SpriteFont GameFont;
-        private static List<GameObject> gameObjects,gameObjectsToAdd,gameObjectsToRemove;
+        private  List<GameObject> gameObjects,gameObjectsToAdd,gameObjectsToRemove;
         /// <summary>
         /// gets and sets the gameobject list
         /// </summary>
-        public static List<GameObject> GameObjects
+        public  List<GameObject> GameObjects
         { get{ return gameObjects; } set { gameObjects = value; } }
         /// <summary>
         /// gets and sets the gameobjects to add list
         /// </summary>
-        public static List<GameObject> GameObjectsToAdd
+        public  List<GameObject> GameObjectsToAdd
         { get { return gameObjectsToAdd; } set { gameObjectsToAdd = value; } }
         /// <summary>
         /// gets and sets the gameobjects to remove
         /// </summary>
-        public static List<GameObject> GameObjectsToRemove
+        public  List<GameObject> GameObjectsToRemove
         { get { return gameObjectsToRemove; } set { gameObjectsToRemove = value; } }
         EnemyPool enemyPool = new EnemyPool();
         public TowerPool towerPool = new TowerPool();
@@ -38,6 +38,7 @@ namespace Game1
         /// </summary>
         public List<Collider> Colliders { get { return colliders; } }
 
+        private Map map;
 
         private Effect noEffect;
         private bool drawing;
@@ -84,7 +85,9 @@ namespace Game1
             gameObjectsToRemove = new List<GameObject>();
             colliders = new List<Collider>();
             rnd = new Random();
-
+            map = new Map();
+            map.GenerateMap();
+            this.IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -106,19 +109,12 @@ namespace Game1
             //add player
 
             //add one enemy
-            gameObjects.Add(towerPool.Create(new Vector2(300, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1, 5, 1));
-            gameObjects.Add(towerPool.Create(new Vector2(100, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1, 5, 1));
-            gameObjects.Add(towerPool.Create(new Vector2(400, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1, 5, 1));
 
             AI.GenerateWayPoints();
-            gameObjects.Add(enemyPool.Create(new Vector2(AI.SpawnPoint.X,AI.SpawnPoint.Y),0,5,1 ));
-            //GameObject player = new GameObject(new Vector2(0,0),graphics.GraphicsDevice );
-            //player.AddComponent(new SpriteRenderer(player, "HeroSheet", 0));
-            //player.AddComponent(new Animator(player,5));
-            //player.AddComponent(new Player(player, 10));
-            //gameObjects.Add(player);
+            gameObjects.Add(enemyPool.Create(new Vector2(AI.SpawnPoint.X,AI.SpawnPoint.Y),0.5f,5,1 ));
+            
             //loads all the gameobjects
-
+            map.LoadContent(Content);
             foreach (var gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);
@@ -151,12 +147,18 @@ namespace Game1
             KeyboardState keyState = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-           
+
             // TODO: Add your update logic here
 
             //test start
-            
-            
+            MouseState mouseState = Mouse.GetState();
+            int mouseX = mouseState.X;
+            int mouseY = mouseState.Y;
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                map.PlaceTurret(mouseX,mouseY);
+            }
+
             if (keyState.IsKeyDown(Keys.K) && !toggle)
             {
                 gameObjectsToAdd.Add(enemyPool.Create(new Vector2(0,GraphicsDevice.PresentationParameters.Bounds.Height / 2), 0, 5,1));
@@ -216,13 +218,15 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
             fps = 1 / gameTime.ElapsedGameTime.TotalSeconds;
             drawing = true;
+            Window.Title = fps.ToString();
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend);
+
+            map.Draw(spriteBatch);
             foreach (var gameObject in gameObjects)
             {
                 gameObject.Draw(spriteBatch);

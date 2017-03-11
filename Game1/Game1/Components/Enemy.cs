@@ -9,8 +9,9 @@ namespace Game1
         private IStrategy strategy;
         private Animator animator;
         private Direction direction;
-        Vector2 target = new Vector2(GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right, GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2);
+        private Vector2 target = AI.Target;
         private List<bool> myWaypointChecks;
+        private int wayPointSize;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
@@ -21,6 +22,7 @@ namespace Game1
             for (int i = 0; i < AI.WayPoints.Count; i++)
             {
                 myWaypointChecks.Add(false);
+                wayPointSize++;
             }
             animator = (Animator)gameObject.GetComponent("Animator");
 
@@ -34,25 +36,14 @@ namespace Game1
         /// </summary>
         public void Update()
         {
+            if (wayPointSize < AI.WayPoints.Count)
+            {
+                myWaypointChecks.Add(false);
+                wayPointSize++;
+            }
             if (GameObject.Transform.Posistion.X < target.X)
             {
                 direction = Direction.Right;
-            }
-
-
-            if (GameObject.Transform.Posistion.Y > target.Y && clearPath)
-            {
-                direction = Direction.Back;
-            }
-            if (GameObject.Transform.Posistion.X > target.X)
-            {
-
-                direction = Direction.Left;
-            }
-
-            if (GameObject.Transform.Posistion.Y < target.Y && clearPath)
-            {
-                direction = Direction.Front;
             }
             
             for (int i = 0; i < AI.WayPoints.Count; i++)

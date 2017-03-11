@@ -60,8 +60,6 @@ namespace Game1
         public void LoadContent(ContentManager content)
         {
             sprite = content.Load<Texture2D>(spriteName);
-            
-
         }
     }
 }
