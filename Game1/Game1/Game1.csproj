@@ -38,12 +38,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AI.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="Builders and Directors\TowerBuilder.cs" />
     <Compile Include="Components\Animator.cs" />
     <Compile Include="Components\Tower.cs" />
     <Compile Include="Interfaces\ICollisionEnter.cs" />
     <Compile Include="Interfaces\ICollisionExit.cs" />
+    <Compile Include="Pools\TowerPool.cs" />
     <Compile Include="Strategies\Attack.cs" />
     <Compile Include="Components\Collider.cs" />
     <Compile Include="Components\Component.cs" />

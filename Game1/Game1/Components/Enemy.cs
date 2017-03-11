@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace Game1
@@ -9,13 +10,18 @@ namespace Game1
         private Animator animator;
         private Direction direction;
         Vector2 target = new Vector2(GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right, GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2);
-
+        private List<bool> myWaypointChecks;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
         /// <param name="gameObject"></param>
         public Enemy(GameObject gameObject) : base(gameObject)
         {
+            myWaypointChecks = new List<bool>();
+            for (int i = 0; i < AI.WayPoints.Count; i++)
+            {
+                myWaypointChecks.Add(false);
+            }
             animator = (Animator)gameObject.GetComponent("Animator");
 
             var collider = GameObject.GetComponent("Collider") as Collider;
@@ -32,31 +38,37 @@ namespace Game1
             {
                 direction = Direction.Right;
             }
+
+
             if (GameObject.Transform.Posistion.Y > target.Y && clearPath)
             {
                 direction = Direction.Back;
             }
-           if (GameObject.Transform.Posistion.X > target.X)
+            if (GameObject.Transform.Posistion.X > target.X)
             {
 
                 direction = Direction.Left;
-           }
-            
+            }
+
             if (GameObject.Transform.Posistion.Y < target.Y && clearPath)
             {
                 direction = Direction.Front;
             }
-            clearPath = true;
-            foreach (var o in GameWorld.GameObjects)
+            
+            for (int i = 0; i < AI.WayPoints.Count; i++)
             {
-                if (o != GameObject)
+                if (!myWaypointChecks[i])
                 {
-                    if (o.Transform.Posistion.X +32 > GameObject.Transform.Posistion.X) { 
-                        clearPath = false;
-                        if (o.Transform.Posistion.Y <= GameObject.Transform.Posistion.Y + 32)
-                            direction = Direction.Back;
+                    var waypoint = AI.WayPoints[i];
+                    if (waypoint.Y >= GameObject.Transform.Posistion.Y)
+                    {
+                        direction = Direction.Front;
                     }
-                    
+                    if(waypoint.X +32 <= GameObject.Transform.Posistion.X)
+                    {
+                        myWaypointChecks[i] = true;
+                    }
+                    clearPath = myWaypointChecks[i];
                 }
             }
             strategy = new Walk(GameObject.Transform,animator);

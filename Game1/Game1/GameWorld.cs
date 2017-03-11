@@ -31,6 +31,7 @@ namespace Game1
         public static List<GameObject> GameObjectsToRemove
         { get { return gameObjectsToRemove; } set { gameObjectsToRemove = value; } }
         EnemyPool enemyPool = new EnemyPool();
+        public TowerPool towerPool = new TowerPool();
         private List<Collider> colliders;
         /// <summary>
         /// gets the list of colliders
@@ -100,16 +101,17 @@ namespace Game1
             // TODO: use this.Content to load your game content here
 
             //the game director and builders
-            
+
             //add all the gameobjects
             //add player
 
             //add one enemy
-            GameObjectDirector god;
-            god = new GameObjectDirector(new TowerBuilder());
-            gameObjects.Add(god.Construct(new Vector2(300, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1,5,1));
-            gameObjects.Add(enemyPool.Create(new Vector2(0,GraphicsDevice.PresentationParameters.Bounds.Height / 2),0,5,1 ));
+            gameObjects.Add(towerPool.Create(new Vector2(300, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1, 5, 1));
+            gameObjects.Add(towerPool.Create(new Vector2(100, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1, 5, 1));
+            gameObjects.Add(towerPool.Create(new Vector2(400, GraphicsDevice.PresentationParameters.Bounds.Height / 2), 1, 5, 1));
 
+            AI.GenerateWayPoints();
+            gameObjects.Add(enemyPool.Create(new Vector2(AI.SpawnPoint.X,AI.SpawnPoint.Y),0,5,1 ));
             //GameObject player = new GameObject(new Vector2(0,0),graphics.GraphicsDevice );
             //player.AddComponent(new SpriteRenderer(player, "HeroSheet", 0));
             //player.AddComponent(new Animator(player,5));
