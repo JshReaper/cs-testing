@@ -57,6 +57,13 @@ namespace Game1
                         }
                     }
                 }
+            /*use this instead 
+            
+
+            direction = AI.ChoseDirection((int)GameObject.Transform.Posistion.X, (int)GameObject.Transform.Posistion.X);
+
+
+            */
             strategy = new Walk(GameObject.Transform,animator);
             strategy.Execute(direction);
         }
