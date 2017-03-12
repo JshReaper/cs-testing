@@ -54,6 +54,11 @@ namespace Game1
 
         public static Direction ChoseDirection(int enX, int enY)
         {
+
+            //add logic
+
+
+
             return Direction.Left;
         }
     }
