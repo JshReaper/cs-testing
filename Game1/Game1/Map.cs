@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game1
 {
-    class Map
+    public class Map
     {
         private Texture2D sprite;
         private Vector2[,] tiles;
@@ -19,7 +19,7 @@ namespace Game1
         private int mapSizeY;
         private int toPlaceAtX;
         private int toPlaceAtY;
-        
+        public Vector2[,] Tiles { get { return tiles; } }
         public Map()
         {
             mapSizeX = 25;
@@ -72,7 +72,7 @@ namespace Game1
             if (tileAvailable && canPlace)
             { 
                 GameWorld.Instance.GameObjectsToAdd.Add(GameWorld.Instance.towerPool.Create(new Vector2(x,y), 1, 5, 0.5f));
-                AI.GenerateWayPoints();
+                AI.GenerateWayPoints(x,y);
             }
         }
         /// <summary>

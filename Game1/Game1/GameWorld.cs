@@ -64,6 +64,8 @@ namespace Game1
             }
         }
 
+        public Map Map { get { return map; } }
+
         private GameWorld()
         {
 
@@ -109,8 +111,7 @@ namespace Game1
             //add player
 
             //add one enemy
-
-            AI.GenerateWayPoints();
+            
             gameObjects.Add(enemyPool.Create(new Vector2(AI.SpawnPoint.X,AI.SpawnPoint.Y),0.5f,5,1 ));
             
             //loads all the gameobjects

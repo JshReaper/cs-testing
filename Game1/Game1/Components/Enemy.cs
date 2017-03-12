@@ -10,20 +10,14 @@ namespace Game1
         private Animator animator;
         private Direction direction;
         private Vector2 target = AI.Target;
-        private List<bool> myWaypointChecks;
-        private int wayPointSize;
+        private Vector2[,] tiles;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
         /// <param name="gameObject"></param>
         public Enemy(GameObject gameObject) : base(gameObject)
         {
-            myWaypointChecks = new List<bool>();
-            for (int i = 0; i < AI.WayPoints.Count; i++)
-            {
-                myWaypointChecks.Add(false);
-                wayPointSize++;
-            }
+            
             animator = (Animator)gameObject.GetComponent("Animator");
 
             var collider = GameObject.GetComponent("Collider") as Collider;
@@ -36,32 +30,33 @@ namespace Game1
         /// </summary>
         public void Update()
         {
-            if (wayPointSize < AI.WayPoints.Count)
+            if (tiles == null)
             {
-                myWaypointChecks.Add(false);
-                wayPointSize++;
+                tiles = GameWorld.Instance.Map.Tiles;
             }
+            
             if (GameObject.Transform.Posistion.X < target.X)
             {
                 direction = Direction.Right;
             }
-            
-            for (int i = 0; i < AI.WayPoints.Count; i++)
-            {
-                if (!myWaypointChecks[i])
+            if(AI.notPasableArea != null)
+                for (int x = 0; x < tiles.GetLength(0); x++)
                 {
-                    var waypoint = AI.WayPoints[i];
-                    if (waypoint.Y >= GameObject.Transform.Posistion.Y)
+                    for (int y = 0; y < tiles.GetLength(1); y++)
                     {
-                        direction = Direction.Front;
+                        if (x == 0) continue;
+                        if (x == tiles.GetLength(0) - 1) continue;
+                        if (y == 0) continue;
+                        if (y == tiles.GetLength(1) - 1) continue;
+                        if (!AI.notPasableArea[x, y]) continue;
+                        if (!(tiles[x, y].X > GameObject.Transform.Posistion.X)) continue;
+                        if (GameObject.Transform.Posistion.Y >= tiles[x, y].Y &&
+                            GameObject.Transform.Posistion.Y  <= tiles[x, y].Y + 32)
+                        {
+                               direction = Direction.Front; 
+                        }
                     }
-                    if(waypoint.X +32 <= GameObject.Transform.Posistion.X)
-                    {
-                        myWaypointChecks[i] = true;
-                    }
-                    clearPath = myWaypointChecks[i];
                 }
-            }
             strategy = new Walk(GameObject.Transform,animator);
             strategy.Execute(direction);
         }

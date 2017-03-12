@@ -9,7 +9,7 @@ namespace Game1
 {
     public static class AI
     {
-        static List<Vector2> waypoints = new List<Vector2>();
+        public static bool[,] notPasableArea { get; private set; }
 
         private static Vector2 spawnPoint = new Vector2(0,(
             GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2) + 16);
@@ -17,19 +17,30 @@ namespace Game1
         static Vector2 target = new Vector2(GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right, (
             GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2) + 16);
 
-
-        public static List<Vector2> WayPoints { get { return waypoints; } }
+        
         public static Vector2 SpawnPoint { get { return spawnPoint; } }
         public static Vector2 Target { get { return target; } }
 
-        public static void GenerateWayPoints()
+        public static void GenerateWayPoints( float x, float y)
         {
-            waypoints.Clear();
-            foreach (var to in GameWorld.Instance.towerPool.Objects)
+            Vector2[,] tiles = GameWorld.Instance.Map.Tiles;
+            if (notPasableArea == null)
             {
-                if (to.Transform.Posistion.Y >= target.Y && to.Transform.Posistion.Y <= target.Y +32)
+                notPasableArea = new bool[GameWorld.Instance.Map.Tiles.GetLength(0), GameWorld.Instance.Map.Tiles.GetLength(1)];
+                for (int i = 0; i < notPasableArea.GetLength(0); i++)
                 {
-                    waypoints.Add(new Vector2(to.Transform.Posistion.X,to.Transform.Posistion.Y+32));
+                    notPasableArea[i, 0] = true;
+                    notPasableArea[i, notPasableArea.GetLength(1) -1] = true;
+                }
+            }
+            for (int tileX = 0; tileX < GameWorld.Instance.Map.Tiles.GetLength(0); tileX++)
+            {
+                for (int tileY = 0; tileY < GameWorld.Instance.Map.Tiles.GetLength(1); tileY++)
+                {
+                    if (tiles[tileX, tileY].X == (int) x && tiles[tileX, tileY].Y == (int)y)
+                    {
+                        notPasableArea[tileX, tileY] = true;
+                    }
                 }
             }
         }
