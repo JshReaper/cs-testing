@@ -17,6 +17,7 @@ namespace Game1
         static Vector2 target = new Vector2(GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right,
             (GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2) + 16);
 
+        static Vector2[,] tiles = GameWorld.Instance.Map.Tiles;
         public static Vector2 SpawnPoint
         {
             get { return spawnPoint; }
@@ -29,7 +30,6 @@ namespace Game1
 
         public static void GenerateWayPoints(float x, float y)
         {
-            Vector2[,] tiles = GameWorld.Instance.Map.Tiles;
             if (notPasableArea == null)
             {
                 notPasableArea =
@@ -54,12 +54,31 @@ namespace Game1
 
         public static Direction ChoseDirection(int enX, int enY)
         {
+            bool towerToRight = false;
 
-            //add logic
-
-
-
-            return Direction.Left;
+            int currentTileX = 0;
+            int currentTileY = 0;
+            Direction direction = Direction.Right;
+            for (int x = 0; x < tiles.GetLength(0); x++)
+            {
+                for (int y = 0; y < tiles.GetLength(1); y++)
+                {
+                    if (tiles[x, y].X <= enX && tiles[x,y].X +32 >= enX && tiles[x, y].Y <= enY && tiles[x, y].Y +32 >= enY)
+                    {
+                        currentTileX = x;
+                        currentTileY = y;
+                    }
+                }
+            }
+            if (currentTileX == 0 || currentTileY == 0) return direction;
+            if (currentTileX == tiles.GetLength(0) - 1 || currentTileY == tiles.GetLength(1) - 1) return direction;
+            if (notPasableArea == null) return direction;
+            if (notPasableArea[currentTileX +1, currentTileY])
+            {
+                direction = Direction.Front;
+            }
+            
+            return direction;
         }
     }
 }

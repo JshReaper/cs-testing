@@ -9,8 +9,6 @@ namespace Game1
         private IStrategy strategy;
         private Animator animator;
         private Direction direction;
-        private Vector2 target = AI.Target;
-        private Vector2[,] tiles;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
@@ -30,40 +28,13 @@ namespace Game1
         /// </summary>
         public void Update()
         {
-            if (tiles == null)
-            {
-                tiles = GameWorld.Instance.Map.Tiles;
-            }
             
-            if (GameObject.Transform.Posistion.X < target.X)
-            {
-                direction = Direction.Right;
-            }
-            if(AI.notPasableArea != null)
-                for (int x = 0; x < tiles.GetLength(0); x++)
-                {
-                    for (int y = 0; y < tiles.GetLength(1); y++)
-                    {
-                        if (x == 0) continue;
-                        if (x == tiles.GetLength(0) - 1) continue;
-                        if (y == 0) continue;
-                        if (y == tiles.GetLength(1) - 1) continue;
-                        if (!AI.notPasableArea[x, y]) continue;
-                        if (!(tiles[x, y].X > GameObject.Transform.Posistion.X)) continue;
-                        if (GameObject.Transform.Posistion.Y >= tiles[x, y].Y &&
-                            GameObject.Transform.Posistion.Y  <= tiles[x, y].Y + 32)
-                        {
-                               direction = Direction.Front; 
-                        }
-                    }
-                }
-            /*use this instead 
             
 
-            direction = AI.ChoseDirection((int)GameObject.Transform.Posistion.X, (int)GameObject.Transform.Posistion.X);
+            direction = AI.ChoseDirection((int)GameObject.Transform.Posistion.X, (int)GameObject.Transform.Posistion.Y);
 
 
-            */
+            
             strategy = new Walk(GameObject.Transform,animator);
             strategy.Execute(direction);
         }
