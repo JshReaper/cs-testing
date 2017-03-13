@@ -9,20 +9,22 @@ namespace Game1
         private IStrategy strategy;
         private Animator animator;
         private Direction direction;
+        private bool towerToRight;
+        private int savedX, savedY;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
         /// <param name="gameObject"></param>
         public Enemy(GameObject gameObject) : base(gameObject)
         {
-            
+            towerToRight = false;   
             animator = (Animator)gameObject.GetComponent("Animator");
 
             var collider = GameObject.GetComponent("Collider") as Collider;
             if (collider != null)
                 collider.DoCollisionChecks = true;
         }
-
+        
         /// <summary>
         /// Movement and such to be added !
         /// </summary>
@@ -31,10 +33,19 @@ namespace Game1
             
             
 
-            direction = AI.ChoseDirection((int)GameObject.Transform.Posistion.X, (int)GameObject.Transform.Posistion.Y);
+            direction = AI.ChoseDirection((int)GameObject.Transform.Posistion.X, (int)GameObject.Transform.Posistion.Y,ref towerToRight,ref savedX, ref savedY);
 
-
-            
+            if (towerToRight)
+            {
+                if (savedY -30 > GameObject.Transform.Posistion.Y)
+                {
+                    towerToRight = false;
+                }
+                if (savedY + 30 < GameObject.Transform.Posistion.Y)
+                {
+                    towerToRight = false;
+                }
+            }
             strategy = new Walk(GameObject.Transform,animator);
             strategy.Execute(direction);
         }

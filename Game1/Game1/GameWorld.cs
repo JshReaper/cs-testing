@@ -42,7 +42,7 @@ namespace Game1
 
         private Effect noEffect;
         private bool drawing;
-        private Random rnd;
+        public Random rnd { get; private set; }
         private double fps;
         private static GameWorld instance = null;
         /// <summary>
