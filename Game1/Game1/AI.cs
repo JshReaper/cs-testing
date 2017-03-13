@@ -28,7 +28,7 @@ namespace Game1
             get { return target; }
         }
 
-        public static void GenerateWayPoints(float x, float y)
+        public static void GenerateNotPasableArea(float x, float y)
         {
             if (notPasableArea == null)
             {
@@ -82,45 +82,12 @@ namespace Game1
                         {
                                 if (notPasableArea[x, currentTileY])
                                 {
-                                    //select shortes rute
+                                    towerToRight = true;
                                 }
                         }
-
                 }
             }
-
-
-
-            if (currentTileX == 0 || currentTileY == 0) return direction;
-            if (currentTileX == tiles.GetLength(0) - 1 || currentTileY == tiles.GetLength(1) - 1) return direction;
-            if (notPasableArea == null) return direction;
-            if (notPasableArea[currentTileX +1, currentTileY])
-            {
-                towerToRight = true;
-                savedY =(int) tiles[currentTileX, currentTileY].Y;
-                savedX = (int)tiles[currentTileX, currentTileY].X;
-            }
-            if (towerToRight)
-            {
-                int towersUp = 0;
-                int towersDown = 1;
-                if (towersDown < towersUp)
-                {
-                    direction = Direction.Front;
-                }
-                else
-                {
-                    direction = Direction.Back;
-                }
-                if (notPasableArea[currentTileX, currentTileY - 1])
-                {
-                    direction = Direction.Front;
-                }
-                else if (notPasableArea[currentTileX, currentTileY + 1])
-                {
-                    direction = Direction.Back;
-                }
-            }
+            
             return direction;
         }
     }

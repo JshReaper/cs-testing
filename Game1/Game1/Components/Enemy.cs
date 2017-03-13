@@ -34,18 +34,7 @@ namespace Game1
             
 
             direction = AI.ChoseDirection((int)GameObject.Transform.Posistion.X, (int)GameObject.Transform.Posistion.Y,ref towerToRight,ref savedX, ref savedY);
-
-            if (towerToRight)
-            {
-                if (savedY -30 > GameObject.Transform.Posistion.Y)
-                {
-                    towerToRight = false;
-                }
-                if (savedY + 30 < GameObject.Transform.Posistion.Y)
-                {
-                    towerToRight = false;
-                }
-            }
+            
             strategy = new Walk(GameObject.Transform,animator);
             strategy.Execute(direction);
         }

@@ -72,7 +72,7 @@ namespace Game1
             if (tileAvailable && canPlace)
             { 
                 GameWorld.Instance.GameObjectsToAdd.Add(GameWorld.Instance.towerPool.Create(new Vector2(x,y), 1, 5, 0.5f));
-                AI.GenerateWayPoints(x,y);
+                AI.GenerateNotPasableArea(x,y);
             }
         }
         /// <summary>
