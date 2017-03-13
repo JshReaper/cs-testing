@@ -13,18 +13,18 @@ namespace Game1
     public class Map
     {
         private Texture2D sprite;
-        private Vector2[,] tiles;
+        private Tile[,] tiles;
         private Rectangle rectangle;
         private int mapSizeX;
         private int mapSizeY;
         private int toPlaceAtX;
         private int toPlaceAtY;
-        public Vector2[,] Tiles { get { return tiles; } }
+        public Tile[,] Tiles { get { return tiles; } }
         public Map()
         {
             mapSizeX = 25;
             mapSizeY = 15;
-            tiles = new Vector2[mapSizeX,mapSizeY];
+            tiles = new Tile[mapSizeX,mapSizeY];
         }
         public void GenerateMap()
         {
@@ -34,7 +34,7 @@ namespace Game1
                 for (int y = 0; y < mapSizeY; y++)
                 {
                     toPlaceAtY = y * 32;
-                    tiles[x,y] =( new Vector2(toPlaceAtX, toPlaceAtY));
+                    tiles[x,y].pos =( new Vector2(toPlaceAtX, toPlaceAtY));
                 }
             }
         }
@@ -44,13 +44,13 @@ namespace Game1
             bool canPlace = false;
             foreach (var t in tiles)
             {
-                if (t.X + 32 >x && t.X < x)
+                if (t.pos.X + 32 >x && t.pos.X < x)
                 {
-                    x = t.X;
+                    x = t.pos.X;
                 }
-                if (t.Y + 32 >y && t.Y < y)
+                if (t.pos.Y + 32 >y && t.pos.Y < y)
                 {
-                    y = t.Y;
+                    y = t.pos.Y;
                     canPlace = true;
                 }
             }
@@ -81,29 +81,29 @@ namespace Game1
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Vector2 t in tiles)
+            foreach (Tile t in tiles)
             {
-                if (t.Y == 0)
+                if (t.pos.Y == 0)
                 {
 
-                    spriteBatch.Draw(sprite, t, rectangle, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
-                else if(t.Y == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Bottom-32)
+                else if(t.pos.Y == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Bottom-32)
                 {
 
-                    spriteBatch.Draw(sprite, t, rectangle, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
-                else if (t.X == 0)
+                else if (t.pos.X == 0)
                 {
-                    spriteBatch.Draw(sprite, t, rectangle, Color.Blue, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Blue, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
-                else if (t.X == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right -32)
+                else if (t.pos.X == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right -32)
                 {
-                    spriteBatch.Draw(sprite, t, rectangle, Color.Red, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Red, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
                 else
                 {
-                    spriteBatch.Draw(sprite, t, rectangle, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
             }
         }

@@ -71,6 +71,9 @@
     <Compile Include="StaticManager.cs" />
     <Compile Include="Components\Transform.cs" />
     <Compile Include="Strategies\Walk.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="TileType.cs" />
+    <Compile Include="WayPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
