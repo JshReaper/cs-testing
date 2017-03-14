@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace test_console_app
@@ -9,21 +10,29 @@ namespace test_console_app
     internal static class Program
     {
         private static bool _talking = true;
-
         private static void Main(string[] args)
         {
-            Console.Write("<<generic stuff>> ");
-            Console.WriteLine("Hello World");
-            while (_talking)
-            {
-                EnCounterDog();
-            }
-            Console.WriteLine("oh look a fox");
-            var foxi = new Fox();
-            foxi.Talk();
+            Thread t = new Thread(WriteY);
+            t.Start();
             Console.ReadKey();
+            for (int i = 0; i < 1000; i++)
+            {
+                Console.Write("x");
+            }
+            Console.ReadKey();
+            
         }
-        
+
+        private static void WriteY()
+        {
+            Console.ReadKey();
+            for (int i = 0; i < 1000; i++)
+            {
+                Console.Write("y");
+            }
+        }
+
+
         private static void EnCounterDog()
         {
             var fido = new GoldenRetriever();
@@ -42,39 +51,5 @@ namespace test_console_app
                 Console.Clear();
             }
         }
-    }
-
-    internal abstract class Animal
-    {
-        public virtual void Eat()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Move()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Talk()
-        {
-            Console.WriteLine("generic animal noise");
-        }
-    }
-
-    internal abstract class Dog : Animal
-    {
-        public override void Talk()
-        {
-            Console.WriteLine("Wuuf");
-        }
-    }
-
-    internal class Fox : Animal
-    {
-    }
-
-    internal class GoldenRetriever : Dog
-    {
     }
 }

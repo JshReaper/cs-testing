@@ -83,28 +83,40 @@ namespace Game1
         {
             foreach (Tile t in tiles)
             {
-                if (t.pos.Y == 0)
+                if (t.pos.X == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right - 32 &&
+                    t.pos.Y == (GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Bottom - 32) / 2)
+                {
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Blue, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                }
+                else if (t.pos.X == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right - 64 &&
+                    t.pos.Y == (GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Bottom - 32) / 2)
+                {
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Blue, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                }
+                else if (t.pos.Y == 0)
                 {
 
                     spriteBatch.Draw(sprite, t.pos, rectangle, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
-                else if(t.pos.Y == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Bottom-32)
+                else if (t.pos.Y == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Bottom - 32)
                 {
 
                     spriteBatch.Draw(sprite, t.pos, rectangle, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
                 else if (t.pos.X == 0)
                 {
-                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Blue, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
-                }
-                else if (t.pos.X == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right -32)
-                {
                     spriteBatch.Draw(sprite, t.pos, rectangle, Color.Red, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
+                else if (t.pos.X == GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Right - 32)
+                {
+                    spriteBatch.Draw(sprite, t.pos, rectangle, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
+                }
+                
                 else
                 {
                     spriteBatch.Draw(sprite, t.pos, rectangle, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0.1f);
                 }
+                
             }
         }
         /// <summary>
