@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Games.Pathfinding.AStar2DTest
+namespace Game1
 {
 	/// <summary>
 	/// A node class for doing pathfinding on a 2-dimensional map

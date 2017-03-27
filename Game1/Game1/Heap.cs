@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Tanis.Collections
+namespace Game1
 {
 	/// <summary>
 	/// The Heap allows to maintain a list sorted as long as needed.

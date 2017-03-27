@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using Tanis.Collections;
 
-namespace Games.Pathfinding {
+namespace Game1 {
 
 	/// <summary>
 	/// Base class for pathfinding nodes, it holds no actual information about the map. 
