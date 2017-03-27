@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-
 namespace Game1
 {
 	/// <summary>

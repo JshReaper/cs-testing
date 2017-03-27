@@ -6,6 +6,10 @@ namespace Game1
     internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable
     {
         private Animator animator;
+        Vector2 direction = Vector2.Zero;
+        int myMapY;
+        int myMapX;
+        Tile[,] mapTiles;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
@@ -24,9 +28,25 @@ namespace Game1
         /// </summary>
         public void Update()
         {
-            
-            
-
+            if(GameWorld.Instance.Map != null)
+            {
+                mapTiles = GameWorld.Instance.Map.Tiles;
+            }
+            if(mapTiles != null)
+            {
+                for (int x = 0; x < mapTiles.GetLength(0); x++)
+                {
+                    for (int y = 0; y < mapTiles.GetLength(1); y++)
+                    {
+                        if (mapTiles[x, y].Pos.X <= GameObject.Transform.Posistion.X && mapTiles[x, y].Pos.X + 32 >= GameObject.Transform.Posistion.X && mapTiles[x, y].Pos.Y <= GameObject.Transform.Posistion.Y && mapTiles[x, y].Pos.Y + 32 >= GameObject.Transform.Posistion.Y)
+                        {
+                            myMapX = x;
+                            myMapY = y;
+                        }
+                    }
+                }
+            }
+            GameObject.Transform.Posistion += direction;
            
         }
         
@@ -68,6 +88,26 @@ namespace Game1
 
 
         }
-       
+
+        public void UpdateMoveMent()
+        {
+            switch (GameWorld.Instance.rnd.Next(1, 5))
+            {
+                case 1:
+                    direction = new Vector2(0, 1);
+                    break;
+                case 2:
+
+                //    direction = new Vector2(0, -1);
+                    break;
+                case 3:
+
+                    direction = new Vector2(1,0);
+                    break;
+                case 4:
+                 //   direction = new Vector2(-1, 0);
+                    break;
+            }
+        }
     }
 }

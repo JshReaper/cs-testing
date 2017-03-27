@@ -15,6 +15,8 @@ namespace Game1
         SpriteBatch spriteBatch;
         private SpriteFont GameFont;
         private  List<GameObject> gameObjects,gameObjectsToAdd,gameObjectsToRemove;
+        public Map Map { get; private set; }
+
         /// <summary>
         /// gets and sets the gameobject list
         /// </summary>
@@ -62,7 +64,9 @@ namespace Game1
                 return instance;
             }
         }
-        
+
+        public bool Running { get; set; }
+
 
         private GameWorld()
         {
@@ -79,12 +83,14 @@ namespace Game1
         /// </summary>
         protected override void Initialize()
         {
+            Running = true;
             // TODO: Add your initialization logic here
             gameObjects = new List<GameObject>();
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             colliders = new List<Collider>();
             rnd = new Random();
+            Map = new Map(25,16);
             this.IsMouseVisible = true;
             base.Initialize();
         }
@@ -110,6 +116,9 @@ namespace Game1
             
             gameObjects.Add(enemyPool.Create(new Vector2(0,0),0.5f,5,1 ));
             
+
+            //loads the map
+            Map.LoadContent(Content);
             //loads all the gameobjects
             foreach (var gameObject in gameObjects)
             {
@@ -117,7 +126,7 @@ namespace Game1
             }
             GameFont = Content.Load<SpriteFont>("font");
 
-
+            AI.Instance.Start();
         }
 
         /// <summary>
@@ -140,9 +149,11 @@ namespace Game1
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             
             KeyboardState keyState = Keyboard.GetState();
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape)) { 
+                Running = true;
                 Exit();
-
+            }
             // TODO: Add your update logic here
 
             //test start
@@ -216,7 +227,10 @@ namespace Game1
 
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend);
-            
+            //draws the map
+            Map.Draw(spriteBatch);
+
+            //draws all objects
             foreach (var gameObject in gameObjects)
             {
                 gameObject.Draw(spriteBatch);

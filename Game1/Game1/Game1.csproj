@@ -46,7 +46,6 @@
     <Compile Include="Heap.cs" />
     <Compile Include="ICollisionEnter.cs" />
     <Compile Include="ICollisionExit.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="TowerPool.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="Component.cs" />
