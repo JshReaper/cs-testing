@@ -37,8 +37,7 @@ namespace Game1
         /// gets the list of colliders
         /// </summary>
         public List<Collider> Colliders { get { return colliders; } }
-
-        private Map map;
+        
 
         private Effect noEffect;
         private bool drawing;
@@ -63,8 +62,7 @@ namespace Game1
                 return instance;
             }
         }
-
-        public Map Map { get { return map; } }
+        
 
         private GameWorld()
         {
@@ -87,8 +85,6 @@ namespace Game1
             gameObjectsToRemove = new List<GameObject>();
             colliders = new List<Collider>();
             rnd = new Random();
-            map = new Map();
-            map.GenerateMap();
             this.IsMouseVisible = true;
             base.Initialize();
         }
@@ -112,15 +108,13 @@ namespace Game1
 
             //add one enemy
             
-            gameObjects.Add(enemyPool.Create(new Vector2(AI.SpawnPoint.X,AI.SpawnPoint.Y),0.5f,5,1 ));
+            gameObjects.Add(enemyPool.Create(new Vector2(0,0),0.5f,5,1 ));
             
             //loads all the gameobjects
-            map.LoadContent(Content);
             foreach (var gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);
             }
-
             GameFont = Content.Load<SpriteFont>("font");
 
 
@@ -155,10 +149,6 @@ namespace Game1
             MouseState mouseState = Mouse.GetState();
             int mouseX = mouseState.X;
             int mouseY = mouseState.Y;
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                map.PlaceTurret(mouseX,mouseY);
-            }
 
             if (keyState.IsKeyDown(Keys.K) && !toggle)
             {
@@ -226,13 +216,11 @@ namespace Game1
 
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend);
-
-            map.Draw(spriteBatch);
+            
             foreach (var gameObject in gameObjects)
             {
                 gameObject.Draw(spriteBatch);
             }
-
             spriteBatch.DrawString(GameFont,"",Vector2.Zero, Color.White);
 
             spriteBatch.End();

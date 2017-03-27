@@ -1,23 +1,17 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace Game1
 {
     internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable
     {
-        private IStrategy strategy;
         private Animator animator;
-        private Direction direction;
-        private bool towerToRight;
-        private int savedX, savedY;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
         /// <param name="gameObject"></param>
         public Enemy(GameObject gameObject) : base(gameObject)
         {
-            towerToRight = false;   
             animator = (Animator)gameObject.GetComponent("Animator");
 
             var collider = GameObject.GetComponent("Collider") as Collider;
@@ -33,13 +27,9 @@ namespace Game1
             
             
 
-            direction = AI.ChoseDirection((int)GameObject.Transform.Posistion.X, (int)GameObject.Transform.Posistion.Y,ref towerToRight,ref savedX, ref savedY);
-            
-            strategy = new Walk(GameObject.Transform,animator);
-            strategy.Execute(direction);
+           
         }
-
-        private bool clearPath;
+        
         /// <summary>
         /// creates animations
         /// </summary>

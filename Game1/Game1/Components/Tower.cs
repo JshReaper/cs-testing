@@ -5,9 +5,7 @@ namespace Game1
 {
     internal class Tower : Component, IUpdateAble, ILoadable, IAnimateable
     {
-        private IStrategy strategy;
         private Animator animator;
-        private Direction direction;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
