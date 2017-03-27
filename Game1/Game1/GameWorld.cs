@@ -83,7 +83,6 @@ namespace Game1
         /// </summary>
         protected override void Initialize()
         {
-            Running = true;
             // TODO: Add your initialization logic here
             gameObjects = new List<GameObject>();
             gameObjectsToAdd = new List<GameObject>();
@@ -92,6 +91,7 @@ namespace Game1
             rnd = new Random();
             Map = new Map(25,16);
             this.IsMouseVisible = true;
+            Running = true;
             base.Initialize();
         }
 
@@ -151,7 +151,7 @@ namespace Game1
             KeyboardState keyState = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape)) { 
-                Running = true;
+                Running = false;
                 Exit();
             }
             // TODO: Add your update logic here

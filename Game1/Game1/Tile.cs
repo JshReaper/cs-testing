@@ -1,4 +1,3 @@
-using System.Threading;
 using Game1;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -29,77 +28,6 @@ namespace Game1
         {
             sprite = content.Load<Texture2D>("tile");
             rectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
-        }
-    }
-
-    public class Map : ILoadable, IDrawAble
-    {
-        public Tile[,] Tiles { get; }
-
-        public Map(int sizeX, int sizeY)
-        {
-            Tiles = new Tile[sizeX, sizeY];
-
-            for (int x = 0; x < Tiles.GetLength(0); x++)
-            {
-                for (int y = 0; y < Tiles.GetLength(1); y++)
-                {
-                    Tiles[x, y] = new Tile(new Vector2(x * 32, y * 32), Color.White);
-                }
-            }
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (var tile in Tiles)
-            {
-                tile.Draw(spriteBatch);
-            }
-        }
-        public void LoadContent(ContentManager content)
-        {
-            foreach (var tile in Tiles)
-            {
-                tile.LoadContent(content);
-
-            }
-        }
-    }
-
-    public class AI
-    {
-        private static AI instance = null;
-        private Thread enMove;
-        public static AI Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new AI();
-                }
-                return instance;
-            }
-        }
-
-        private AI()
-        {
-        }
-
-        public void Start()
-        {
-            enMove = new Thread(EnemyMoveMent) { IsBackground = true };
-            enMove.Start();
-        }
-        private void EnemyMoveMent()
-        {
-            while (GameWorld.Instance.Running)
-            {
-                foreach (var o in GameWorld.Instance.GameObjects)
-                {
-                    Enemy en = o.GetComponent("Enemy") as Enemy;
-                    en?.UpdateMoveMent();
-                }
-            }
         }
     }
 }
