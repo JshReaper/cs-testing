@@ -502,7 +502,7 @@ namespace Game1
 				throw new InvalidOperationException("The heap is empty.");
 			object Object = FList[Count-1];
 			FList.RemoveAt(Count-1);
-			return(Object);
+			return Object;
 		}
 
 		/// <summary>
@@ -512,7 +512,7 @@ namespace Game1
 		/// <returns></returns>
 		public int Push(object Object)
 		{
-			return(Add(Object));
+			return Add(Object);
 		}
 
 		#endregion

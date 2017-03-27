@@ -56,7 +56,7 @@ namespace Game1
             get 
             {
                 Calculate();
-                return(FGoalEstimate);
+                return FGoalEstimate;
             }
         }
         private double FGoalEstimate;
@@ -68,7 +68,7 @@ namespace Game1
         {
             get 
             {
-                return(Cost + GoalEstimate);
+                return Cost + GoalEstimate;
             }
         }
 
@@ -175,7 +175,7 @@ namespace Game1
 
         public int CompareTo(object obj)
         {
-            return(-TotalCost.CompareTo(((AStarNode)obj).TotalCost));
+            return-TotalCost.CompareTo(((AStarNode)obj).TotalCost);
         }
 
         #endregion

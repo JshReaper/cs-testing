@@ -42,6 +42,7 @@
     <Compile Include="Animation.cs" />
     <Compile Include="AStar.cs" />
     <Compile Include="AStarNode.cs" />
+    <Compile Include="AstarTD.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="TowerBuilder.cs" />
     <Compile Include="Animator.cs" />

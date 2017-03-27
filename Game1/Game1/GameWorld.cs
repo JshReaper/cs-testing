@@ -181,7 +181,7 @@ namespace Game1
                     gameObject.LoadContent(Content);
                 }
             }
-         
+         Map.Update();
             foreach (var gameObject in gameObjects)
             {
                 gameObject.Update();

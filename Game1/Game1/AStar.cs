@@ -54,7 +54,7 @@ namespace Game1 {
 		private void PrintNodeList(object ANodeList)
 		{
 			Console.WriteLine("Node list:");
-			foreach(AStarNode n in (ANodeList as IEnumerable)) 
+			foreach(AStarNode n in ANodeList as IEnumerable) 
 			{
 				n.PrintNodeInfo();
 			}
@@ -107,7 +107,7 @@ namespace Game1 {
                             break;
                         }
                     }
-                    if ((NodeOpen != null) && (NodeSuccessor.TotalCost > NodeOpen.TotalCost))
+                    if (NodeOpen != null && NodeSuccessor.TotalCost > NodeOpen.TotalCost)
                         continue;
 
                     // Test if the currect successor node is on the closed list, if it is and
@@ -121,7 +121,7 @@ namespace Game1 {
                             break;
                         }
                     }
-                    if ((NodeClosed != null) && (NodeSuccessor.TotalCost > NodeClosed.TotalCost))
+                    if (NodeClosed != null && NodeSuccessor.TotalCost > NodeClosed.TotalCost)
                         continue;
 
                     // Remove the old successor from the open list

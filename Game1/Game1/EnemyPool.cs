@@ -57,7 +57,7 @@ namespace Game1
         {
             gameObject.Transform.Posistion = new Vector2(0,GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height/2);
 
-            if ((gameObject.GetComponent("Collider") as Collider) != null)
+            if (gameObject.GetComponent("Collider") as Collider != null)
                 (gameObject.GetComponent("Collider") as Collider).DoCollisionChecks = false;
 
         }
