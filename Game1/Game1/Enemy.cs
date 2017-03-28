@@ -16,7 +16,8 @@ namespace Game1
         Tile[,] mapTiles;
         AstarThreadWorker astarThreadWorkerTemp, astarThreadWorker;
         List<Vector2> WayPointsList;
-
+        private bool firstCheck = true;
+        private int savedY;
         WayPoint wayPoint;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
@@ -35,14 +36,16 @@ namespace Game1
         }
         void Astar(GameTime gameTime, Map map, int enemyID, List<Enemy> enemies)
         {
-            
-            astarThreadWorker = null;
-            AstarManager.AddNewThreadWorker(new Node(new Vector2((int)GameObject.Transform.Position.X / 16, (int)GameObject.Transform.Position.Y / 16)),
-                                            new Node(new Vector2((int)GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.X / 16, (int)GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Y / 16)), map, false, enemyID);
-            
+            if (savedY != myYTile)
+            {
+                astarThreadWorker = null;
+                AstarManager.AddNewThreadWorker(new Node(new Vector2(myXTile, myYTile)),
+                    new Node(new Vector2(map.sizeX-1, myYTile)), map, true, enemyID);
+                savedY = myYTile;
+            }
 
             AstarManager.AstarThreadWorkerResults.TryPeek(out astarThreadWorkerTemp);
-
+            
             if (astarThreadWorkerTemp != null)
                 if (astarThreadWorkerTemp.WorkerIDNumber == enemyID)
                 {
@@ -55,13 +58,13 @@ namespace Game1
                         WayPointsList = astarThreadWorker.astar.GetFinalPath();
 
                         for (int i = 0; i < WayPointsList.Count; i++)
-                            WayPointsList[i] = new Vector2(WayPointsList[i].X * 16, WayPointsList[i].Y * 16);
+                            WayPointsList[i] = new Vector2(WayPointsList[i].X * 32, WayPointsList[i].Y * 32);
                     }
                 }
 
             if (WayPointsList.Count > 0)
             {
-            //    Avoidence(gameTime, enemies, UnitID);
+              //  Avoidence(gameTime, enemies, UnitID);
                 wayPoint.MoveTo(gameTime, this, WayPointsList, 0.1f);
             }
         }
@@ -83,12 +86,14 @@ namespace Game1
                     for (int y = 0; y < mapTiles.GetLength(1); y++)
                     {
                         if (mapTiles[x, y].Pos.X <= GameObject.Transform.Position.X 
-                            && mapTiles[x, y].Pos.X + 32 >= GameObject.Transform.Position.X 
-                            && mapTiles[x, y].Pos.Y <= GameObject.Transform.Position.Y 
-                            && mapTiles[x, y].Pos.Y + 32 >= GameObject.Transform.Position.Y)
+                            && mapTiles[x, y].Pos.X + 32 > GameObject.Transform.Position.X)
                         {
-                            myYTile = x;
-                            myXTile = y;
+                            myXTile = x;
+                        }
+                        if (mapTiles[x, y].Pos.Y -1 <= GameObject.Transform.Position.Y
+                            && mapTiles[x, y].Pos.Y + 32 > GameObject.Transform.Position.Y)
+                        {
+                            myYTile = y;
                         }
                     }
                 }

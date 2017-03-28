@@ -34,7 +34,7 @@ namespace Game1
         { get { return gameObjectsToRemove; } set { gameObjectsToRemove = value; } }
         EnemyPool enemyPool = new EnemyPool();
         public TowerPool towerPool = new TowerPool();
-        public EnemyPool EnemyPool = new EnemyPool();
+        public EnemyPool EnemyPool { get { return enemyPool; } }
         private List<Collider> colliders;
         /// <summary>
         /// gets the list of colliders
@@ -116,8 +116,11 @@ namespace Game1
             //add one enemy
             
             gameObjects.Add(enemyPool.Create(new Vector2(32,32),0.5f,5,1 ));
-            
-
+            gameObjects.Add(towerPool.Create(new Vector2(320, 0), 1, 5, 1));
+            gameObjects.Add(towerPool.Create(new Vector2(320,32),1,5,1 ));
+            gameObjects.Add(towerPool.Create(new Vector2(352, 96), 1, 5, 1));
+            gameObjects.Add(towerPool.Create(new Vector2(384, 32), 1, 5, 1));
+            gameObjects.Add(towerPool.Create(new Vector2(384, 64), 1, 5, 1));
             //loads the map
             Map.LoadContent(Content);
             //loads all the gameobjects

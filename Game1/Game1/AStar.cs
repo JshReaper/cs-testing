@@ -46,9 +46,6 @@ namespace Game1
         /// </summary>
         void GenerateCollisionNodes()
         {
-            //change this so it goes though every tower instead
-            //for (int i = 0; i < map.AStarCollisionObjects.Count; i++)
-            //    Nodes[(int)map.AStarCollisionObjects[i].X, (int)map.AStarCollisionObjects[i].Y].Passable = false;
             foreach (var go in GameWorld.Instance.towerPool.Objects)
             {
                 Tower tower = go.GetComponent("Tower") as Tower;

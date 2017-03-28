@@ -44,8 +44,8 @@ namespace Game1
                             && mapTiles[x, y].Pos.Y <= GameObject.Transform.Position.Y
                             && mapTiles[x, y].Pos.Y + 32 >= GameObject.Transform.Position.Y)
                         {
-                            MyYTile = x;
-                            MyXTile = y;
+                            MyYTile = y;
+                            MyXTile = x;
                         }
                     }
                 }
