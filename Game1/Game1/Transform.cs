@@ -4,11 +4,11 @@ namespace Game1
 {
     public class Transform:Component
     {
-        private Vector2 posistion;
+        private Vector2 position;
         /// <summary>
         /// gets or sets the current posistion of the gameobject attached to the transform
         /// </summary>
-        public Vector2 Posistion { get { return posistion; } set { posistion = value; } }
+        public Vector2 Position { get { return position; } set { position = value; } }
         /// <summary>
         /// gets or sets the current scale of the gameobject attached to the transform
         /// </summary>
@@ -28,7 +28,7 @@ namespace Game1
         /// <param name="posistion"></param>
         public Transform(GameObject gameObject, Vector2 posistion) : base(gameObject)
         {
-            this.posistion = posistion;
+            this.position = posistion;
             Scale = 1;
             Origin = Vector2.Zero;
             Rotation = 0;
@@ -39,7 +39,7 @@ namespace Game1
         /// <param name="translation"></param>
         public void Translate(Vector2 translation)
         {
-            posistion += translation;
+            position += translation;
         }
 
     }

@@ -1,7 +1,9 @@
+using Microsoft.Xna.Framework;
+
 namespace Game1
 {
     interface IUpdateAble
     {
-        void Update();
+        void Update(GameTime gameTime);
     }
 }

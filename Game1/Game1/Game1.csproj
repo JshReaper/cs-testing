@@ -38,16 +38,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AI.cs" />
     <Compile Include="Animation.cs" />
-    <Compile Include="AStar.cs" />
-    <Compile Include="AStarNode.cs" />
-    <Compile Include="AstarTD.cs" />
+    <Compile Include="Astar.cs" />
+    <Compile Include="AstarManager.cs" />
+    <Compile Include="AstarThreadWorker.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="TowerBuilder.cs" />
     <Compile Include="Animator.cs" />
     <Compile Include="Tower.cs" />
-    <Compile Include="Heap.cs" />
     <Compile Include="ICollisionEnter.cs" />
     <Compile Include="ICollisionExit.cs" />
     <Compile Include="TowerPool.cs" />
@@ -70,6 +69,7 @@
     <Compile Include="SpriteRenderer.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="WayPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

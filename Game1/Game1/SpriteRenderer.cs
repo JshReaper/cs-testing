@@ -50,7 +50,7 @@ namespace Game1
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, GameObject.Transform.Posistion+Offset,rectangle,color,GameObject.Transform.Rotation,GameObject.Transform.Origin,scale,SpriteEffects.None,layerDepth);
+            spriteBatch.Draw(sprite, GameObject.Transform.Position+Offset,rectangle,color,GameObject.Transform.Rotation,GameObject.Transform.Origin,scale,SpriteEffects.None,layerDepth);
             
         }
         /// <summary>

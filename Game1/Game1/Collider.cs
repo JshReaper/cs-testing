@@ -18,8 +18,8 @@ namespace Game1
         {
             get
             {
-                return new Rectangle((int) (GameObject.Transform.Posistion.X + spriteRenderer.Offset.X),
-                    (int) (GameObject.Transform.Posistion.Y + spriteRenderer.Offset.Y),(int) (spriteRenderer.Rectangle.Width * spriteRenderer.Scale),
+                return new Rectangle((int) (GameObject.Transform.Position.X + spriteRenderer.Offset.X),
+                    (int) (GameObject.Transform.Position.Y + spriteRenderer.Offset.Y),(int) (spriteRenderer.Rectangle.Width * spriteRenderer.Scale),
                     (int)(spriteRenderer.Rectangle.Height * spriteRenderer.Scale));
             }
         }
@@ -65,7 +65,7 @@ namespace Game1
         /// <summary>
         /// checks for collision
         /// </summary>
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             CheckCollision();
         }

@@ -13,7 +13,8 @@ namespace Game1
         /// gets the transform attached to the game object
         /// </summary>
         public Transform Transform { get { return transform; } }
-       
+
+
         private List<Component> components;
         private bool isLoaded = false;
         /// <summary>
@@ -94,7 +95,7 @@ namespace Game1
             {
                 if (component is IUpdateAble)
                 {
-                    (component as IUpdateAble).Update();
+                    (component as IUpdateAble).Update(GameWorld.Instance.upGameTime);
                 }
             }
         }

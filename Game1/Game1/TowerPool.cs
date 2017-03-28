@@ -58,7 +58,7 @@ namespace Game1
         /// <param name="gameObject"></param>
         void CleanUp(GameObject gameObject)
         {
-            gameObject.Transform.Posistion = new Vector2(0, GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2);
+            gameObject.Transform.Position = new Vector2(0, GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height / 2);
 
             if (gameObject.GetComponent("Collider") as Collider != null)
                 (gameObject.GetComponent("Collider") as Collider).DoCollisionChecks = false;

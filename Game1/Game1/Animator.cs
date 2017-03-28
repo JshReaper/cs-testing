@@ -33,7 +33,7 @@ namespace Game1
         /// <summary>
         /// updates the animations
         /// </summary>
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             timeElapsed += GameWorld.Instance.deltaTime;
             currentIndex = (int) (timeElapsed * fps);

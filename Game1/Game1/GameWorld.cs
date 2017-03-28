@@ -34,6 +34,7 @@ namespace Game1
         { get { return gameObjectsToRemove; } set { gameObjectsToRemove = value; } }
         EnemyPool enemyPool = new EnemyPool();
         public TowerPool towerPool = new TowerPool();
+        public EnemyPool EnemyPool = new EnemyPool();
         private List<Collider> colliders;
         /// <summary>
         /// gets the list of colliders
@@ -114,7 +115,7 @@ namespace Game1
 
             //add one enemy
             
-            gameObjects.Add(enemyPool.Create(new Vector2(0,0),0.5f,5,1 ));
+            gameObjects.Add(enemyPool.Create(new Vector2(32,32),0.5f,5,1 ));
             
 
             //loads the map
@@ -125,8 +126,7 @@ namespace Game1
                 gameObject.LoadContent(Content);
             }
             GameFont = Content.Load<SpriteFont>("font");
-
-            AI.Instance.Start();
+            
         }
 
         /// <summary>
@@ -137,7 +137,8 @@ namespace Game1
         {
             // TODO: Unload any non ContentManager content here
         }
-        
+
+        public GameTime upGameTime { get; private set; }
         bool toggle = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -146,6 +147,7 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            upGameTime = gameTime;
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             
             KeyboardState keyState = Keyboard.GetState();
@@ -181,7 +183,7 @@ namespace Game1
                     gameObject.LoadContent(Content);
                 }
             }
-         Map.Update();
+         Map.Update(gameTime);
             foreach (var gameObject in gameObjects)
             {
                 gameObject.Update();

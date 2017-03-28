@@ -5,6 +5,7 @@ namespace Game1
     class EnemyBuilder:IGameObjectBuilder
     {
         private GameObject gameObject;
+        private int id;
         /// <summary>
         /// returns the created gameobject
         /// </summary>
@@ -23,10 +24,11 @@ namespace Game1
         /// <param name="scale"></param>
         public void BuildGameObject(Vector2 posistion, float layerDepth, float animationFps,float scale)
         {
+            id++;
             gameObject = new GameObject(posistion);
             gameObject.AddComponent(new SpriteRenderer(gameObject,"greenMan",layerDepth,scale));
             gameObject.AddComponent(new Animator(gameObject, animationFps));
-            gameObject.AddComponent(new Enemy(gameObject));
+            gameObject.AddComponent(new Enemy(gameObject,id));
         }
     }
 }

@@ -3,10 +3,12 @@ using Microsoft.Xna.Framework;
 
 namespace Game1
 {
-    class EnemyPool
+    public class EnemyPool
     {
         private List<GameObject> activeGameObjects;
         private List<GameObject> inactiveGameObjects;
+        public List<Enemy> Enemies { get; }
+
         /// <summary>
         /// sets the active and inactive gameobject lists
         /// </summary>
@@ -14,6 +16,7 @@ namespace Game1
         {
             activeGameObjects = new List<GameObject>();
             inactiveGameObjects = new List<GameObject>();
+            Enemies = new List<Enemy>(); 
         }
         /// <summary>
         /// creates a enemy either pulls one from the inactive list or creates a new one
@@ -36,6 +39,7 @@ namespace Game1
                 GameObjectDirector gameObjectDirector = new GameObjectDirector(new EnemyBuilder());
                 GameObject go = gameObjectDirector.Construct(posistion, layerDepth, animationFps, scale);
                 activeGameObjects.Add(go);
+                Enemies.Add(go.GetComponent("Enemy") as Enemy);
                 return go; 
             }
         }
@@ -55,7 +59,7 @@ namespace Game1
         /// <param name="gameObject"></param>
         void CleanUp(GameObject gameObject)
         {
-            gameObject.Transform.Posistion = new Vector2(0,GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height/2);
+            gameObject.Transform.Position = new Vector2(0,GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Height/2);
 
             if (gameObject.GetComponent("Collider") as Collider != null)
                 (gameObject.GetComponent("Collider") as Collider).DoCollisionChecks = false;

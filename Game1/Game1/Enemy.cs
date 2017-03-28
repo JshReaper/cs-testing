@@ -1,33 +1,77 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace Game1
 {
-    internal class Enemy : Component,IUpdateAble, ILoadable, IAnimateable
+    public class Enemy : Component,IUpdateAble, ILoadable, IAnimateable
     {
         private Animator animator;
         Vector2 direction = Vector2.Zero;
-        int myMapY;
-        int myMapX;
+        private List<Point> myPath;
+        int myXTile;
+        int myYTile;
+        private int myID;
         Tile[,] mapTiles;
+        AstarThreadWorker astarThreadWorkerTemp, astarThreadWorker;
+        List<Vector2> WayPointsList;
+
+        WayPoint wayPoint;
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
         /// <param name="gameObject"></param>
-        public Enemy(GameObject gameObject) : base(gameObject)
+        public Enemy(GameObject gameObject, int myId) : base(gameObject)
         {
+            myID = myId;
             animator = (Animator)gameObject.GetComponent("Animator");
+            WayPointsList = new List<Vector2>();
 
+            wayPoint = new WayPoint();
             var collider = GameObject.GetComponent("Collider") as Collider;
             if (collider != null)
                 collider.DoCollisionChecks = true;
         }
-        
+        void Astar(GameTime gameTime, Map map, int enemyID, List<Enemy> enemies)
+        {
+            
+            astarThreadWorker = null;
+            AstarManager.AddNewThreadWorker(new Node(new Vector2((int)GameObject.Transform.Position.X / 16, (int)GameObject.Transform.Position.Y / 16)),
+                                            new Node(new Vector2((int)GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.X / 16, (int)GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Y / 16)), map, false, enemyID);
+            
+
+            AstarManager.AstarThreadWorkerResults.TryPeek(out astarThreadWorkerTemp);
+
+            if (astarThreadWorkerTemp != null)
+                if (astarThreadWorkerTemp.WorkerIDNumber == enemyID)
+                {
+                    AstarManager.AstarThreadWorkerResults.TryDequeue(out astarThreadWorker);
+
+                    if (astarThreadWorker != null)
+                    {
+                        wayPoint = new WayPoint();
+
+                        WayPointsList = astarThreadWorker.astar.GetFinalPath();
+
+                        for (int i = 0; i < WayPointsList.Count; i++)
+                            WayPointsList[i] = new Vector2(WayPointsList[i].X * 16, WayPointsList[i].Y * 16);
+                    }
+                }
+
+            if (WayPointsList.Count > 0)
+            {
+            //    Avoidence(gameTime, enemies, UnitID);
+                wayPoint.MoveTo(gameTime, this, WayPointsList, 0.1f);
+            }
+        }
+
         /// <summary>
         /// Movement and such to be added !
         /// </summary>
-        public void Update()
+        public void Update(GameTime gameTime)
         {
+            gameTime = GameWorld.Instance.upGameTime;
             if(GameWorld.Instance.Map != null)
             {
                 mapTiles = GameWorld.Instance.Map.Tiles;
@@ -38,15 +82,20 @@ namespace Game1
                 {
                     for (int y = 0; y < mapTiles.GetLength(1); y++)
                     {
-                        if (mapTiles[x, y].Pos.X <= GameObject.Transform.Posistion.X && mapTiles[x, y].Pos.X + 32 >= GameObject.Transform.Posistion.X && mapTiles[x, y].Pos.Y <= GameObject.Transform.Posistion.Y && mapTiles[x, y].Pos.Y + 32 >= GameObject.Transform.Posistion.Y)
+                        if (mapTiles[x, y].Pos.X <= GameObject.Transform.Position.X 
+                            && mapTiles[x, y].Pos.X + 32 >= GameObject.Transform.Position.X 
+                            && mapTiles[x, y].Pos.Y <= GameObject.Transform.Position.Y 
+                            && mapTiles[x, y].Pos.Y + 32 >= GameObject.Transform.Position.Y)
                         {
-                            myMapX = x;
-                            myMapY = y;
+                            myYTile = x;
+                            myXTile = y;
                         }
                     }
                 }
             }
-            GameObject.Transform.Posistion += direction;
+
+            Astar(gameTime, GameWorld.Instance.Map, myID, GameWorld.Instance.EnemyPool.Enemies);
+            GameObject.Transform.Position += direction;
            
         }
         
@@ -91,23 +140,20 @@ namespace Game1
 
         public void UpdateMoveMent()
         {
-            switch (GameWorld.Instance.rnd.Next(1, 5))
-            {
-                case 1:
-                    direction = new Vector2(0, 1);
-                    break;
-                case 2:
-
-                //    direction = new Vector2(0, -1);
-                    break;
-                case 3:
-
-                    direction = new Vector2(1,0);
-                    break;
-                case 4:
-                 //   direction = new Vector2(-1, 0);
-                    break;
-            }
+            
+                //right
+                direction = new Vector2(0, 1);
+            
+                //left
+                direction = new Vector2(0, -1);
+           
+                //down
+                direction = new Vector2(1, 0);
+            
+                //up
+                direction = new Vector2(-1, 0);
+            
+            
         }
     }
 }
