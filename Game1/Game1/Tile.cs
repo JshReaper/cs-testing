@@ -11,7 +11,7 @@ namespace Game1
         private Texture2D sprite;
         private Rectangle rectangle;
         private Color color;
-
+        public bool HasTower { get; set; }
         public Tile(Vector2 p,Color c)
         {
             pos = p;

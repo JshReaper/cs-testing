@@ -13,7 +13,7 @@ namespace Game1
         /// A ConcurrentQueue where every AstarThreadWorker will store its results in.
         /// </summary>
         public static ConcurrentQueue<AstarThreadWorker> AstarThreadWorkerResults = new ConcurrentQueue<AstarThreadWorker>();
-
+        
         /// <summary>
         /// This function will add a new thread worker for A* algorithm to run on.
         /// </summary>
@@ -26,7 +26,9 @@ namespace Game1
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
             {
-                AstarThreadWorker astarWorker = new AstarThreadWorker(StartingNode, TargetNode, map, DisableDiagonalPathfinding, WorkerIDNumber);
+                AstarThreadWorker astarWorker = new AstarThreadWorker(StartingNode, TargetNode, map,
+                    DisableDiagonalPathfinding, WorkerIDNumber);
+
                 AstarThreadWorkerResults.Enqueue(astarWorker);
             }));
         }

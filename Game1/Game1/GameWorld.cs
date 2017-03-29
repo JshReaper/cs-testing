@@ -16,7 +16,7 @@ namespace Game1
         private SpriteFont GameFont;
         private  List<GameObject> gameObjects,gameObjectsToAdd,gameObjectsToRemove;
         public Map Map { get; private set; }
-
+        public bool MapChanged { get; set; }
         /// <summary>
         /// gets and sets the gameobject list
         /// </summary>
@@ -116,11 +116,11 @@ namespace Game1
             //add one enemy
             
             gameObjects.Add(enemyPool.Create(new Vector2(32,32),0.5f,5,1 ));
-            gameObjects.Add(towerPool.Create(new Vector2(320, 0), 1, 5, 1));
-            gameObjects.Add(towerPool.Create(new Vector2(320,32),1,5,1 ));
-            gameObjects.Add(towerPool.Create(new Vector2(352, 96), 1, 5, 1));
-            gameObjects.Add(towerPool.Create(new Vector2(384, 32), 1, 5, 1));
-            gameObjects.Add(towerPool.Create(new Vector2(384, 64), 1, 5, 1));
+            //gameObjects.Add(towerPool.Create(new Vector2(320, 0), 1, 5, 1));
+            //gameObjects.Add(towerPool.Create(new Vector2(320,32),1,5,1 ));
+            //gameObjects.Add(towerPool.Create(new Vector2(352, 96), 1, 5, 1));
+            //gameObjects.Add(towerPool.Create(new Vector2(384, 32), 1, 5, 1));
+            //gameObjects.Add(towerPool.Create(new Vector2(384, 64), 1, 5, 1));
             //loads the map
             Map.LoadContent(Content);
             //loads all the gameobjects
@@ -129,7 +129,7 @@ namespace Game1
                 gameObject.LoadContent(Content);
             }
             GameFont = Content.Load<SpriteFont>("font");
-            
+            AI.Instance.Start();
         }
 
         /// <summary>
@@ -165,7 +165,28 @@ namespace Game1
             MouseState mouseState = Mouse.GetState();
             int mouseX = mouseState.X;
             int mouseY = mouseState.Y;
-
+            if (Map.Tiles != null)
+            {
+                for (int x = 0; x < Map.Tiles.GetLength(0); x++)
+                {
+                    for (int y = 0; y < Map.Tiles.GetLength(1); y++)
+                    {
+                        if (Map.Tiles[x, y].Pos.X <= mouseX
+                            && Map.Tiles[x, y].Pos.X + 32 > mouseX &&
+                            Map.Tiles[x, y].Pos.Y <= mouseY
+                            && Map.Tiles[x, y].Pos.Y + 32 > mouseY)
+                        {
+                            if(mouseState.LeftButton == ButtonState.Pressed)
+                            if (!Map.Tiles[x, y].HasTower)
+                            {
+                                gameObjectsToAdd.Add(towerPool.Create(new Vector2(32*x, 32*y), 1, 5, 1));
+                                Map.Tiles[x, y].HasTower = true;
+                                
+                            }
+                        }
+                    }
+                }
+            }
             if (keyState.IsKeyDown(Keys.K) && !toggle)
             {
                 gameObjectsToAdd.Add(enemyPool.Create(new Vector2(0,GraphicsDevice.PresentationParameters.Bounds.Height / 2), 0, 5,1));
@@ -215,7 +236,6 @@ namespace Game1
                 gameObjectsToAdd.Clear();
                 gameObjectsToRemove.Clear();
             }
-
             base.Update(gameTime);
         }
         

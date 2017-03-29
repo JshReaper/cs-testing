@@ -19,6 +19,9 @@ namespace Game1
         private bool firstCheck = true;
         private int savedY;
         WayPoint wayPoint;
+        private int savedTowerA;
+        private bool mapChanged;
+
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
@@ -34,14 +37,20 @@ namespace Game1
             if (collider != null)
                 collider.DoCollisionChecks = true;
         }
-        void Astar(GameTime gameTime, Map map, int enemyID, List<Enemy> enemies)
+        public void Astar(GameTime gameTime, Map map, int enemyID, List<Enemy> enemies)
         {
-            if (savedY != myYTile)
+            if (GameWorld.Instance.towerPool.Objects.Count != savedTowerA)
+            {
+                mapChanged = true;
+                savedTowerA = GameWorld.Instance.towerPool.Objects.Count;
+            }
+            if (savedY != myYTile || mapChanged)
             {
                 astarThreadWorker = null;
                 AstarManager.AddNewThreadWorker(new Node(new Vector2(myXTile, myYTile)),
                     new Node(new Vector2(map.sizeX-1, myYTile)), map, true, enemyID);
                 savedY = myYTile;
+                mapChanged = false;
             }
 
             AstarManager.AstarThreadWorkerResults.TryPeek(out astarThreadWorkerTemp);
@@ -49,6 +58,7 @@ namespace Game1
             if (astarThreadWorkerTemp != null)
                 if (astarThreadWorkerTemp.WorkerIDNumber == enemyID)
                 {
+                    
                     AstarManager.AstarThreadWorkerResults.TryDequeue(out astarThreadWorker);
 
                     if (astarThreadWorker != null)
@@ -62,11 +72,7 @@ namespace Game1
                     }
                 }
 
-            if (WayPointsList.Count > 0)
-            {
-              //  Avoidence(gameTime, enemies, UnitID);
-                wayPoint.MoveTo(gameTime, this, WayPointsList, 0.1f);
-            }
+            
         }
 
         /// <summary>
@@ -74,6 +80,7 @@ namespace Game1
         /// </summary>
         public void Update(GameTime gameTime)
         {
+            
             gameTime = GameWorld.Instance.upGameTime;
             if(GameWorld.Instance.Map != null)
             {
@@ -99,9 +106,11 @@ namespace Game1
                 }
             }
 
+
+
             Astar(gameTime, GameWorld.Instance.Map, myID, GameWorld.Instance.EnemyPool.Enemies);
-            GameObject.Transform.Position += direction;
-           
+
+
         }
         
         /// <summary>
@@ -143,22 +152,28 @@ namespace Game1
 
         }
 
-        public void UpdateMoveMent()
+        public void UpdateMoveMent(GameTime g)
         {
             
-                //right
-                direction = new Vector2(0, 1);
+                ////right
+                //direction = new Vector2(0, 1);
             
-                //left
-                direction = new Vector2(0, -1);
+                ////left
+                //direction = new Vector2(0, -1);
            
-                //down
-                direction = new Vector2(1, 0);
+                ////down
+                //direction = new Vector2(1, 0);
             
-                //up
-                direction = new Vector2(-1, 0);
-            
-            
+                ////up
+                //direction = new Vector2(-1, 0);
+
+
+            if (WayPointsList.Count > 0)
+            {
+
+                wayPoint.MoveTo(g, this, WayPointsList, 0.05f);
+            }
+            Thread.Sleep(10);
         }
     }
 }
