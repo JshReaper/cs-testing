@@ -19,13 +19,15 @@ namespace Game1
         private bool firstCheck = true;
         private int savedY;
         WayPoint wayPoint;
-        private int savedTowerA;
-        private bool mapChanged;
+        public static int savedTowerA;
+        public static bool mapChanged;
+        object AILock = new object();
 
         /// <summary>
         /// sets a reference to the attached gameobjects animator and sets DoColCheck to true on the collider
         /// </summary>
         /// <param name="gameObject"></param>
+        /// <param name="myId"></param>
         public Enemy(GameObject gameObject, int myId) : base(gameObject)
         {
             myID = myId;
@@ -39,18 +41,13 @@ namespace Game1
         }
         public void Astar(GameTime gameTime, Map map, int enemyID, List<Enemy> enemies)
         {
-            if (GameWorld.Instance.towerPool.Objects.Count != savedTowerA)
-            {
-                mapChanged = true;
-                savedTowerA = GameWorld.Instance.towerPool.Objects.Count;
-            }
+            
             if (savedY != myYTile || mapChanged)
             {
                 astarThreadWorker = null;
                 AstarManager.AddNewThreadWorker(new Node(new Vector2(myXTile, myYTile)),
                     new Node(new Vector2(map.sizeX-1, myYTile)), map, true, enemyID);
                 savedY = myYTile;
-                mapChanged = false;
             }
 
             AstarManager.AstarThreadWorkerResults.TryPeek(out astarThreadWorkerTemp);
@@ -154,26 +151,30 @@ namespace Game1
 
         public void UpdateMoveMent(GameTime g)
         {
-            
-                ////right
-                //direction = new Vector2(0, 1);
-            
-                ////left
-                //direction = new Vector2(0, -1);
-           
-                ////down
-                //direction = new Vector2(1, 0);
-            
-                ////up
-                //direction = new Vector2(-1, 0);
 
+            ////right
+            //direction = new Vector2(0, 1);
+
+            ////left
+            //direction = new Vector2(0, -1);
+
+            ////down
+            //direction = new Vector2(1, 0);
+
+            ////up
+            //direction = new Vector2(-1, 0);
+           
+                
+            
 
             if (WayPointsList.Count > 0)
             {
 
                 wayPoint.MoveTo(g, this, WayPointsList, 0.05f);
             }
-            Thread.Sleep(10);
+            
+
+            
         }
     }
 }

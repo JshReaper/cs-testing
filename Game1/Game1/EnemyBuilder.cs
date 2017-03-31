@@ -5,7 +5,7 @@ namespace Game1
     class EnemyBuilder:IGameObjectBuilder
     {
         private GameObject gameObject;
-        private int id;
+        private static int id;
         /// <summary>
         /// returns the created gameobject
         /// </summary>

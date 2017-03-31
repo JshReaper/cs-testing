@@ -438,7 +438,6 @@ namespace Game1
         {
             CreateNodeList();
             GenerateCollisionNodes();
-
             CurrentNode = this.StartingNode;
 
             OpenList = new List<Node>();
@@ -449,6 +448,7 @@ namespace Game1
 
             while (true)
             {
+                
                 CurrentNode = GetMin_F_Vaule();
 
                 FindNeighborsNodes();

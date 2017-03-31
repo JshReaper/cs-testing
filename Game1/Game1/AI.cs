@@ -26,18 +26,24 @@ namespace Game1
         private AI()
         {
         }
-
+        
         public void Start()
         {
             enMove = new Thread(EnemyMoveMent) { IsBackground = true };
             
             enMove.Start();
         }
-        private void EnemyMoveMent()
+        private static void EnemyMoveMent()
         {
             while (GameWorld.Instance.Running)
             {
-                
+                if (GameWorld.Instance.towerPool.Objects.Count != Enemy.savedTowerA)
+                {
+                   Enemy. mapChanged = true;
+                    Enemy.savedTowerA = GameWorld.Instance.towerPool.Objects.Count;
+                    Thread.Sleep(500);
+                    Enemy.mapChanged = false;
+                }
                 for (int i = 0; i < GameWorld.Instance.GameObjects.Count; i++)
                 {
                     var o = GameWorld.Instance.GameObjects[i];
@@ -45,7 +51,7 @@ namespace Game1
                     en?.UpdateMoveMent(GameWorld.Instance.upGameTime);
                     
                 }
-               
+               Thread.Sleep(10);
             }
         }
     }

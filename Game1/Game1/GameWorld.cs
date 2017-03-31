@@ -115,7 +115,6 @@ namespace Game1
 
             //add one enemy
             
-            gameObjects.Add(enemyPool.Create(new Vector2(32,32),0.5f,5,1 ));
             //gameObjects.Add(towerPool.Create(new Vector2(320, 0), 1, 5, 1));
             //gameObjects.Add(towerPool.Create(new Vector2(320,32),1,5,1 ));
             //gameObjects.Add(towerPool.Create(new Vector2(352, 96), 1, 5, 1));
@@ -143,6 +142,7 @@ namespace Game1
 
         public GameTime upGameTime { get; private set; }
         bool toggle = false;
+        private float spawnTimer;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -152,7 +152,14 @@ namespace Game1
         {
             upGameTime = gameTime;
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
+            spawnTimer += deltaTime;
+            if(spawnTimer > 10f) { 
+            for (int i = 0; i < 2; i++)
+            {
+                gameObjectsToAdd.Add(enemyPool.Create(new Vector2(0, rnd.Next(0, Map.sizeY) * 32), 0.5f, 5, 1));
+            }
+                spawnTimer = 0;
+            }
             KeyboardState keyState = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape)) { 
